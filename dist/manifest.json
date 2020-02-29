@@ -1,0 +1,22 @@
+{
+  "name": "any-color",
+  "version": "0.1.0",
+  "manifest_version": 2,
+  "description": "Get any pixel color from current page",
+  "homepage_url": "https://hankchiu.tw",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "browser_action": {
+    "name": "Click to invoke AnyColor pointer"
+  },
+  "permissions": ["http://*/*", "https://*/*", "activeTab"],
+  "content_security_policy": "default-src 'self';",
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
