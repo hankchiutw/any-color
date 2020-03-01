@@ -9,6 +9,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "target": "es5",
+    "lib": ["dom", "es2015", "es5", "es6"],
     "noImplicitAny": false,
     "skipLibCheck": true,
     "paths": {
