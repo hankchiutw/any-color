@@ -1,22 +1,14 @@
+import paper from 'paper';
+import { RasterInspector } from './raster-inspector';
+
 export class PixelImage {
-  private canvas: HTMLCanvasElement = document.createElement('canvas');
-  // private ctx: CanvasRenderingContext2D;
-  private imageData: Uint8ClampedArray;
+  private project: paper.Project;
+  private inspector: RasterInspector;
 
   constructor(img: HTMLImageElement) {
+    this.initProject(img.width, img.height);
     img.addEventListener('load', () => {
-      this.canvas.width = img.width;
-      this.canvas.height = img.height;
-      const ctx = this.canvas.getContext('2d');
-      if (!ctx) {
-        throw new Error('null ctx');
-      }
-
-      ctx.drawImage(img, 0, 0, img.width, img.height);
-      this.imageData = ctx.getImageData(0, 0, img.width, img.height).data;
-
-      // XXX
-      document.body.insertAdjacentElement('afterbegin', this.canvas)
+      this.initInspector(img);
     });
   }
 
@@ -26,12 +18,41 @@ export class PixelImage {
     return new PixelImage(img);
   }
 
-  /**
-   * Get the pixel color in RGBA form that can be used as CSS style.
-   */
-  public rgbAt(x: number, y: number): string {
-    const startIndex = (y * this.canvas.width + x) * 4;
-    const [r, g, b, a] = Array.from(this.imageData.slice(startIndex, startIndex + 4));
-    return `rgba(${r}, ${g}, ${b}, ${a})`;
+  private initProject(width: number, height: number) {
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    canvas.setAttribute(
+      'style',
+      `
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        z-index: 999;
+        `
+    );
+
+    this.project = new paper.Project(canvas);
+    this.project.view.on('mousemove', ({ point }) => {
+      if (!this.inspector) {
+        return;
+      }
+      this.inspector.moveTo(point);
+    });
+    // XXX
+    document.body.insertAdjacentElement(
+      'afterbegin',
+      this.project.view.element
+    );
+  }
+
+  private initInspector(img: HTMLImageElement) {
+    const raster = new paper.Raster(img);
+    raster.position = this.project.view.center;
+    raster.width = img.width;
+    raster.height = img.height;
+    raster.visible = false;
+    this.inspector = new RasterInspector(raster);
   }
 }
