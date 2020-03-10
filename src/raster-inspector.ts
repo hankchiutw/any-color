@@ -9,7 +9,13 @@ export class RasterInspector {
   private group: paper.Group;
   private cells: RasterCell[] = [];
 
+  public static create(raster: paper.Raster) {
+    return new RasterInspector(raster);
+  }
+
   constructor(private raster: paper.Raster) {
+    const svg = chrome.runtime.getURL('assets/cursor.svg');
+    paper.project.view.element.style.cursor = `url(${svg}) 9 9, auto`;
     this.initGroup();
   }
 

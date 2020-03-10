@@ -47,7 +47,7 @@ export class PixelImage {
     raster.width = img.width;
     raster.height = img.height;
     raster.visible = false;
-    this.inspector = new RasterInspector(raster);
+    this.inspector = RasterInspector.create(raster);
 
     this.project.view.on('mousemove', ({ point }) => {
       this.inspector.moveTo(point);

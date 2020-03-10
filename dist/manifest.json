@@ -12,11 +12,13 @@
     "name": "Click to invoke AnyColor pointer"
   },
   "permissions": ["http://*/*", "https://*/*", "activeTab"],
-  "content_security_policy": "default-src 'self';",
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
       "js": ["content.js"]
     }
+  ],
+  "web_accessible_resources": [
+    "assets/*"
   ]
 }
