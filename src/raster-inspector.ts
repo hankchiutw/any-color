@@ -1,40 +1,56 @@
 import paper from 'paper';
+import { RasterCell } from './raster-cell';
 
 const kInspectorSize = 11;
 const kCellSize = 30;
+const kStrokeColor = new paper.Color('#444444');
 
 export class RasterInspector {
   private group: paper.Group;
+  private cells: RasterCell[] = [];
 
   constructor(private raster: paper.Raster) {
-    const children = [];
+    this.initGroup();
+  }
+
+  public moveTo(point: paper.Point) {
+    this.group.position = point;
+    this.cells.forEach(c => {
+      c.refresh();
+    });
+  }
+
+  private initGroup() {
     for (let x = 0; x < kInspectorSize; x++) {
       for (let y = 0; y < kInspectorSize; y++) {
-        children.push(
-          new paper.Path.Rectangle({
-            point: [x * kCellSize, y * kCellSize],
-            size: [kCellSize, kCellSize],
-            strokeColor: new paper.Color('#646464'),
+        this.cells.push(
+          RasterCell.create({
+            raster: this.raster,
+            pixelAt: new paper.Point(x, y),
+            size: kCellSize,
           })
         );
       }
     }
 
-    this.group = new paper.Group(...children);
-    this.group.pivot = new paper.Point(0, 0);
-  }
-
-  public moveTo(point: paper.Point) {
-    this.group.position = point;
-    this.updateCells(point);
-  }
-
-  /**
-   * Load cells arround the point
-   */
-  private updateCells(point: paper.Point) {
-    this.group.children.forEach((cell: paper.Item) => {
-      cell.fillColor = this.raster.getPixel(point);
+    const radius = kInspectorSize * kCellSize / 2;
+    const circleClip = new paper.Shape.Circle({
+      center: [radius, radius],
+      radius: radius,
     });
+    const circleBorder = new paper.Shape.Circle({
+      center: [radius, radius],
+      radius,
+      strokeColor: kStrokeColor,
+      strokeWidth: 3,
+    });
+
+    this.group = new paper.Group([
+      circleClip,
+      ...this.cells.map(c => c.raw),
+      circleBorder,
+    ]);
+    this.group.clipped = true;
+    this.group.pivot = new paper.Point(0, 0);
   }
 }

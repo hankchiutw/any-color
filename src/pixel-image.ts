@@ -5,17 +5,17 @@ export class PixelImage {
   private project: paper.Project;
   private inspector: RasterInspector;
 
+  public static create({ width, height, src }) {
+    const img = new Image(width, height);
+    img.src = src;
+    return new PixelImage(img);
+  }
+
   constructor(img: HTMLImageElement) {
     this.initProject(img.width, img.height);
     img.addEventListener('load', () => {
       this.initInspector(img);
     });
-  }
-
-  public static create({ width, height, src }) {
-    const img = new Image(width, height);
-    img.src = src;
-    return new PixelImage(img);
   }
 
   private initProject(width: number, height: number) {
@@ -34,12 +34,6 @@ export class PixelImage {
     );
 
     this.project = new paper.Project(canvas);
-    this.project.view.on('mousemove', ({ point }) => {
-      if (!this.inspector) {
-        return;
-      }
-      this.inspector.moveTo(point);
-    });
     // XXX
     document.body.insertAdjacentElement(
       'afterbegin',
@@ -54,5 +48,9 @@ export class PixelImage {
     raster.height = img.height;
     raster.visible = false;
     this.inspector = new RasterInspector(raster);
+
+    this.project.view.on('mousemove', ({ point }) => {
+      this.inspector.moveTo(point);
+    });
   }
 }
