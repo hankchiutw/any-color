@@ -4,6 +4,21 @@ import { RasterCell } from './raster-cell';
 const kInspectorSize = 11;
 const kCellSize = 30;
 const kStrokeColor = new paper.Color('#444444');
+const kStrokeWidth = 3;
+const kCursorRaduis = 14;
+const kCursorOffset = 18;
+
+function createCursor() {
+  const cursor = new paper.Group([
+    new paper.Path.Circle({
+      center: new paper.Point(kCursorOffset, kCursorOffset),
+      radius: kCursorRaduis,
+      strokeWidth: kStrokeWidth * 2,
+      strokeColor: kStrokeColor,
+    }),
+  ]);
+  return cursor;
+}
 
 export class RasterInspector {
   private group: paper.Group;
@@ -14,8 +29,7 @@ export class RasterInspector {
   }
 
   constructor(private raster: paper.Raster) {
-    const svg = chrome.runtime.getURL('assets/cursor.svg');
-    paper.project.view.element.style.cursor = `url(${svg}) 9 9, auto`;
+    paper.project.view.element.style.cursor = `none`;
     this.initGroup();
   }
 
@@ -27,19 +41,31 @@ export class RasterInspector {
   }
 
   private initGroup() {
+    this.group = new paper.Group([this.createMagnifier(), createCursor()]);
+    this.group.pivot = new paper.Point(0, 0);
+  }
+
+  /**
+   * Create the magnifier having magnified pixels.
+   */
+  private createMagnifier() {
+    // make the inspector center representing the cursor center
+    const offset = kCursorOffset - (kInspectorSize - 1) / 2;
+
     for (let x = 0; x < kInspectorSize; x++) {
       for (let y = 0; y < kInspectorSize; y++) {
         this.cells.push(
           RasterCell.create({
             raster: this.raster,
             pixelAt: new paper.Point(x, y),
+            pivot: new paper.Point(x, y).add(offset),
             size: kCellSize,
           })
         );
       }
     }
 
-    const radius = kInspectorSize * kCellSize / 2;
+    const radius = (kInspectorSize * kCellSize) / 2;
     const circleClip = new paper.Shape.Circle({
       center: [radius, radius],
       radius: radius,
@@ -48,15 +74,15 @@ export class RasterInspector {
       center: [radius, radius],
       radius,
       strokeColor: kStrokeColor,
-      strokeWidth: 3,
+      strokeWidth: kStrokeWidth,
     });
 
-    this.group = new paper.Group([
+    const magnifier = new paper.Group([
       circleClip,
       ...this.cells.map(c => c.raw),
       circleBorder,
     ]);
-    this.group.clipped = true;
-    this.group.pivot = new paper.Point(0, 0);
-  }
+    magnifier.clipped = true;
+    return magnifier;
+}
 }

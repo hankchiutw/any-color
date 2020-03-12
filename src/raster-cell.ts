@@ -5,6 +5,7 @@ const kStrokeColor = new paper.Color('#646464');
 export interface RasterCellInit {
   raster: paper.Raster;
   pixelAt: paper.Point;
+  pivot: paper.Point;
   size: number;
 }
 
@@ -23,7 +24,7 @@ export class RasterCell {
     return cell;
   }
 
-  constructor({ raster, pixelAt, size }: RasterCellInit) {
+  constructor({ raster, pixelAt, pivot, size }: RasterCellInit) {
     this.raster = raster;
     this.rect = new paper.Path.Rectangle({
       point: pixelAt.multiply(size),
@@ -31,7 +32,7 @@ export class RasterCell {
       strokeColor: kStrokeColor,
       fillColor: raster.getPixel(pixelAt),
     });
-    this.rect.pivot = pixelAt;
+    this.rect.pivot = pivot;
   }
 
   public get raw(): paper.Item {
