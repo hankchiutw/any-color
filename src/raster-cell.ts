@@ -1,6 +1,8 @@
 import paper from 'paper';
 
 const kStrokeColor = new paper.Color('#646464');
+const kHighlightStrokeColor = new paper.Color('#ff2020');
+const kHighlightStrokeWidth = 3;
 
 export interface RasterCellInit {
   raster: paper.Raster;
@@ -13,7 +15,7 @@ export interface RasterCellInit {
  * A class representing a pixel on a paper.Raster.
  *
  * @remarks
- * The cell rectangle is located wthin a coordinate having one unit equalts to `size`. 
+ * The cell rectangle is located wthin a coordinate having one unit equalts to `size`.
  */
 export class RasterCell {
   private raster: paper.Raster;
@@ -41,5 +43,11 @@ export class RasterCell {
 
   public refresh() {
     this.rect.fillColor = this.raster.getPixel(this.rect.position);
+  }
+
+  public highlight() {
+    this.rect.bringToFront();
+    this.rect.strokeColor = kHighlightStrokeColor;
+    this.rect.strokeWidth = kHighlightStrokeWidth;
   }
 }
