@@ -27,7 +27,7 @@ export class PixelImage {
       `
         width: 100%;
         height: 100%;
-        position: absolute;
+        position: fixed;
         top: 0;
         z-index: 999;
         `
