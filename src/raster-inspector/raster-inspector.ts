@@ -9,6 +9,10 @@ export class RasterInspector {
   private group: paper.Group;
   private cells: RasterCell[] = [];
 
+  private get targetCell() {
+    return this.cells[(this.cells.length - 1) / 2];
+  }
+
   public static create(raster: paper.Raster) {
     return new RasterInspector(raster);
   }
@@ -47,7 +51,7 @@ export class RasterInspector {
       radius: (kInspectorSize * kCellSize) / 2,
       children: this.cells.map(c => c.raw),
     });
-    this.cells[(this.cells.length - 1) / 2].highlight();
+    this.targetCell.highlight();
 
     this.group = new paper.Group([magnifier, cursor]);
     this.group.pivot = new paper.Point(0, 0);

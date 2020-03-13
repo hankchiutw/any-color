@@ -41,6 +41,14 @@ export class RasterCell {
     return this.rect;
   }
 
+  /**
+   * @remarks
+   * Color string in hex.
+   */
+  public get color() {
+    return this.rect.fillColor.toCSS(true);
+  }
+
   public refresh() {
     this.rect.fillColor = this.raster.getPixel(this.rect.position);
   }
