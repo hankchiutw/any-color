@@ -8,24 +8,39 @@ const kCellSize = 30;
 export class RasterInspector {
   private group: paper.Group;
   private cells: RasterCell[] = [];
+  private raster: paper.Raster;
 
   private get targetCell() {
     return this.cells[(this.cells.length - 1) / 2];
   }
 
-  public static create(raster: paper.Raster) {
-    return new RasterInspector(raster);
+  public static create() {
+    return new RasterInspector();
   }
 
-  constructor(private raster: paper.Raster) {
+  constructor() {
     paper.project.view.element.style.cursor = `none`;
     this.initGroup();
   }
 
+  public loadImage(img: HTMLImageElement) {
+    img.addEventListener('load', () => {
+      const raster = new paper.Raster(img);
+      raster.position = new paper.Point(img.width / 2, img.height / 2);
+      raster.width = img.width;
+      raster.height = img.height;
+      raster.visible = false;
+      this.raster = raster;
+
+      // refresh
+      this.moveTo(this.group.position);
+    });
+  }
+
   public moveTo(point: paper.Point) {
     this.group.position = point;
-    this.cells.forEach(c => {
-      c.refresh();
+    this.cells.forEach(cell => {
+      cell.setColor(this.raster.getPixel(cell.position));
     });
   }
 
@@ -38,7 +53,6 @@ export class RasterInspector {
       for (let y = 0; y < kInspectorSize; y++) {
         this.cells.push(
           RasterCell.create({
-            raster: this.raster,
             pixelAt: new paper.Point(x, y),
             pivot: new paper.Point(x, y).add(offset),
             size: kCellSize,
@@ -56,6 +70,4 @@ export class RasterInspector {
     this.group = new paper.Group([magnifier, cursor]);
     this.group.pivot = new paper.Point(0, 0);
   }
-
-
 }

@@ -1,22 +1,26 @@
 import { EventPayload } from './models';
-import { PixelImage } from './pixel-image';
+import { Project } from './project';
+import { RasterInspector } from './raster-inspector';
+
+let project: Project;
+let inspector: RasterInspector;
 
 chrome.runtime.onMessage.addListener(({ eventName, detail }: EventPayload) => {
-  if (eventName === 'captureVisibleTab') {
-    const { imgSrc, width, height } = detail;
-    const pixelImage = PixelImage.create({
-      width,
-      height,
-      src: imgSrc,
-    });
+  switch (eventName) {
+    case 'init':
+      project = Project.create();
+      inspector = RasterInspector.create();
+      project.attachInspector(inspector);
+      break;
+    case 'captureVisibleTab':
+      {
+        const { imgSrc, width, height } = detail;
+        project.setSize(width, height);
 
-    window.addEventListener('click', ({ clientX, clientY }) => {
-      console.log(
-        'xxx: clicked:',
-        clientX,
-        clientY,
-        pixelImage.rgbAt(clientX, clientY)
-      );
-    });
+        const img = new Image(width, height);
+        img.src = imgSrc;
+        inspector.loadImage(img);
+      }
+      break;
   }
 });

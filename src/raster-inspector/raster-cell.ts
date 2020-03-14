@@ -5,7 +5,6 @@ const kHighlightStrokeColor = new paper.Color('#ff2020');
 const kHighlightStrokeWidth = 3;
 
 export interface RasterCellInit {
-  raster: paper.Raster;
   pixelAt: paper.Point;
   pivot: paper.Point;
   size: number;
@@ -18,7 +17,6 @@ export interface RasterCellInit {
  * The cell rectangle is located wthin a coordinate having one unit equalts to `size`.
  */
 export class RasterCell {
-  private raster: paper.Raster;
   private rect: paper.Path.Rectangle;
 
   public static create(init: RasterCellInit) {
@@ -26,19 +24,21 @@ export class RasterCell {
     return cell;
   }
 
-  constructor({ raster, pixelAt, pivot, size }: RasterCellInit) {
-    this.raster = raster;
+  constructor({ pixelAt, pivot, size }: RasterCellInit) {
     this.rect = new paper.Path.Rectangle({
       point: pixelAt.multiply(size),
       size: [size, size],
       strokeColor: kStrokeColor,
-      fillColor: raster.getPixel(pixelAt),
     });
     this.rect.pivot = pivot;
   }
 
   public get raw(): paper.Item {
     return this.rect;
+  }
+
+  public get position() {
+    return this.rect.position;
   }
 
   /**
@@ -49,8 +49,8 @@ export class RasterCell {
     return this.rect.fillColor.toCSS(true);
   }
 
-  public refresh() {
-    this.rect.fillColor = this.raster.getPixel(this.rect.position);
+  public setColor(paperColor: paper.Color) {
+    this.rect.fillColor = paperColor;
   }
 
   public highlight() {
