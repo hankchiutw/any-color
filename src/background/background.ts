@@ -1,16 +1,9 @@
-import { EventPayload } from './models';
+import { EventPayload } from '../models';
+import { toPromise } from '../utils';
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log('AnyColor installed.');
 });
-
-function toPromise<T>(callback) {
-  return (...args): Promise<T> => {
-    return new Promise(resolve => {
-      callback(...args, resolve);
-    });
-  };
-}
 
 chrome.browserAction.onClicked.addListener(async (tab: chrome.tabs.Tab) => {
   const imgSrc = await toPromise<string>(chrome.tabs.captureVisibleTab)(null, {

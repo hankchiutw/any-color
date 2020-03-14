@@ -5,8 +5,8 @@
   "description": "Get any pixel color from current page",
   "homepage_url": "https://hankchiu.tw",
   "background": {
-    "scripts": ["background.js"],
-    "persistent": true
+    "scripts": ["background/background.js", "background/hot-reload.js"],
+    "persistent": false
   },
   "browser_action": {
     "name": "Click to invoke AnyColor pointer"
@@ -18,7 +18,5 @@
       "js": ["content.js"]
     }
   ],
-  "web_accessible_resources": [
-    "assets/*"
-  ]
+  "web_accessible_resources": ["assets/*"]
 }
