@@ -1,15 +1,15 @@
+import { Inspector } from './inspector';
 import { EventPayload } from './models';
 import { Project } from './project';
-import { RasterInspector } from './raster-inspector';
 
 let project: Project;
-let inspector: RasterInspector;
+let inspector: Inspector;
 
 chrome.runtime.onMessage.addListener(({ eventName, detail }: EventPayload) => {
   switch (eventName) {
     case 'init':
       project = Project.create();
-      inspector = RasterInspector.create();
+      inspector = Inspector.create();
       project.attachInspector(inspector);
       break;
     case 'captureVisibleTab':

@@ -1,13 +1,13 @@
 import paper from 'paper';
+import { PixelCell } from './pixel-cell';
 import { createCursor, createCircleMask } from './primitive-factory';
-import { RasterCell } from './raster-cell';
 
 const kInspectorSize = 11; // should be odd
 const kCellSize = 30;
 
-export class RasterInspector {
+export class Inspector {
   private group: paper.Group;
-  private cells: RasterCell[] = [];
+  private cells: PixelCell[] = [];
   private raster: paper.Raster;
 
   private get targetCell() {
@@ -15,7 +15,7 @@ export class RasterInspector {
   }
 
   public static create() {
-    return new RasterInspector();
+    return new Inspector();
   }
 
   constructor() {
@@ -52,7 +52,7 @@ export class RasterInspector {
     for (let x = 0; x < kInspectorSize; x++) {
       for (let y = 0; y < kInspectorSize; y++) {
         this.cells.push(
-          RasterCell.create({
+          PixelCell.create({
             pixelAt: new paper.Point(x, y),
             pivot: new paper.Point(x, y).add(offset),
             size: kCellSize,

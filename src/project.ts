@@ -1,5 +1,5 @@
 import paper from 'paper';
-import { RasterInspector } from './raster-inspector';
+import { Inspector } from './inspector';
 
 export class Project {
   private project: paper.Project;
@@ -33,7 +33,7 @@ export class Project {
     this.project.view.viewSize = new paper.Size(width, height);
   }
 
-  public attachInspector(inspector: RasterInspector) {
+  public attachInspector(inspector: Inspector) {
     this.project.view.on('mousemove', ({ point }) => {
       inspector.moveTo(point);
     });

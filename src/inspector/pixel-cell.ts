@@ -4,7 +4,7 @@ const kStrokeColor = new paper.Color('#646464');
 const kHighlightStrokeColor = new paper.Color('#ff2020');
 const kHighlightStrokeWidth = 3;
 
-export interface RasterCellInit {
+export interface PixelCellInit {
   pixelAt: paper.Point;
   pivot: paper.Point;
   size: number;
@@ -16,15 +16,15 @@ export interface RasterCellInit {
  * @remarks
  * The cell rectangle is located wthin a coordinate having one unit equalts to `size`.
  */
-export class RasterCell {
+export class PixelCell {
   private rect: paper.Path.Rectangle;
 
-  public static create(init: RasterCellInit) {
-    const cell = new RasterCell(init);
+  public static create(init: PixelCellInit) {
+    const cell = new PixelCell(init);
     return cell;
   }
 
-  constructor({ pixelAt, pivot, size }: RasterCellInit) {
+  constructor({ pixelAt, pivot, size }: PixelCellInit) {
     this.rect = new paper.Path.Rectangle({
       point: pixelAt.multiply(size),
       size: [size, size],
