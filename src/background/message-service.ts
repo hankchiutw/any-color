@@ -1,4 +1,4 @@
-import { EventPayload } from '../models';
+import { EventPayload, EventDetail } from '../models';
 
 export class MessageService {
   public static create(tabId: number) {
@@ -12,5 +12,13 @@ export class MessageService {
       eventName,
       detail,
     } as EventPayload);
+  }
+
+  public on(eventName: string, callback: (detail: EventDetail) => void) {
+    chrome.runtime.onMessage.addListener((payload: EventPayload) => {
+      if (payload.eventName === eventName) {
+        callback(payload.detail);
+      }
+    });
   }
 }
