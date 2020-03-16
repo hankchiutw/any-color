@@ -4,8 +4,8 @@
   "description": "Get any pixel color from current page",
   "main": "index.js",
   "scripts": {
-    "watch": "parcel watch src/**/*.ts src/*.ts --no-source-maps",
-    "build": "parcel build src/*.ts src/*.ts --no-source-maps",
+    "watch": "parcel watch src/background/background.ts src/background/hot-reload.ts src/content.ts --no-source-maps",
+    "build": "parcel build src/background/background.ts src/background/hot-reload.ts src/content.ts --no-source-maps",
     "test": "jest"
   },
   "author": "hank <hankchiu.tw@gmail.com>",
