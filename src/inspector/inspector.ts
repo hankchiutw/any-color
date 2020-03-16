@@ -19,7 +19,6 @@ export class Inspector {
   }
 
   constructor() {
-    paper.project.view.element.style.cursor = `none`;
     this.initGroup();
   }
 

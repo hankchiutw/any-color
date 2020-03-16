@@ -34,6 +34,7 @@ export class Project {
   }
 
   public attachInspector(inspector: Inspector) {
+    this.project.view.element.style.cursor = `none`;
     this.project.view.on('mousemove', ({ point }) => {
       inspector.moveTo(point);
     });
