@@ -33,6 +33,15 @@ export class Project {
     this.project.view.viewSize = new paper.Size(width, height);
   }
 
+  public hide() {
+    this.project.view.element.style.opacity = '0';
+  }
+
+  public show() {
+    this.project.view.element.style.opacity = '1';
+    this.project.view.requestUpdate();
+  }
+
   public attachInspector(inspector: Inspector) {
     this.project.view.element.style.cursor = `none`;
     this.project.view.on('mousemove', ({ point }) => {

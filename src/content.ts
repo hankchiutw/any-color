@@ -5,10 +5,11 @@ import { Project } from './project';
 let project: Project;
 let inspector: Inspector;
 
-function handleViewportChange() {
+function handleViewportChange(project: Project) {
   let timerId: number;
   const debounceSend = () => {
     window.clearTimeout(timerId);
+    project.hide();
     timerId = window.setTimeout(() => {
       chrome.runtime.sendMessage({
         eventName: 'requestCapture',
@@ -25,7 +26,7 @@ chrome.runtime.onMessage.addListener(({ eventName, detail }: EventPayload) => {
       project = Project.create();
       inspector = Inspector.create();
       project.attachInspector(inspector);
-      handleViewportChange();
+      handleViewportChange(project);
       break;
     case 'captureVisibleTab':
       {
@@ -35,6 +36,7 @@ chrome.runtime.onMessage.addListener(({ eventName, detail }: EventPayload) => {
         const img = new Image(width, height);
         img.src = imgSrc;
         inspector.loadImage(img);
+        project.show();
       }
       break;
   }
