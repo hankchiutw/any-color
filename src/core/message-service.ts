@@ -1,4 +1,4 @@
-import { EventPayload, EventDetail } from '../models';
+import { EventPayload, EventDetail } from './models';
 
 export class MessageService {
   public static create(tabId: number) {

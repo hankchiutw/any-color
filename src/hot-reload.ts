@@ -1,4 +1,4 @@
-import { toPromise } from '../utils';
+import { toPromise } from './core/utils';
 
 /**
  * Recursively get all FileEntry and DirectoryEntry.

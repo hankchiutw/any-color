@@ -1,5 +1,5 @@
-import { toPromise } from '../utils';
-import { MessageService } from './message-service';
+import { MessageService } from './core/message-service';
+import { toPromise } from './core/utils';
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log('AnyColor installed.');
@@ -12,12 +12,9 @@ async function captureVisibleTab(tabId: number) {
   const width = latestTab.width / zoom;
   const height = latestTab.height / zoom;
 
-  const imgSrc = await toPromise<string>(chrome.tabs.captureVisibleTab)(
-    null,
-    {
-      format: 'png',
-    }
-  );
+  const imgSrc = await toPromise<string>(chrome.tabs.captureVisibleTab)(null, {
+    format: 'png',
+  });
 
   console.log(
     'captureVisibleTab: src length, width, height:',

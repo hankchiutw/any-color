@@ -5,13 +5,13 @@
   "description": "Get any pixel color from current page",
   "homepage_url": "https://hankchiu.tw",
   "background": {
-    "scripts": ["background/background.js", "background/hot-reload.js"],
+    "scripts": ["background.js", "hot-reload.js"],
     "persistent": false
   },
   "browser_action": {
     "name": "Click to invoke AnyColor pointer"
   },
-  "permissions": ["http://*/*", "https://*/*", "activeTab"],
+  "permissions": ["http://*/*", "https://*/*", "activeTab", "tabCapture"],
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],

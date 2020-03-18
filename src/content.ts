@@ -1,6 +1,6 @@
-import { Inspector } from './inspector';
-import { EventPayload } from './models';
-import { Project } from './project';
+import { Inspector } from './core/inspector';
+import { EventPayload } from './core/models';
+import { Project } from './core/project';
 
 let project: Project;
 let inspector: Inspector;
