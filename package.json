@@ -4,9 +4,14 @@
   "description": "Get any pixel color from current page",
   "main": "index.js",
   "scripts": {
-    "watch": "parcel watch src/*.* --no-source-maps",
-    "build": "parcel build src/*.* --no-source-maps",
+    "watch": "parcel watch src/*.{ts,html} --no-source-maps",
+    "build": "parcel build src/*.{ts,html} --no-source-maps",
     "test": "jest"
+  },
+  "staticFiles": {
+    "staticPath": "src",
+    "excludeGlob": "**/*.!(json)",
+    "watcherGlob": "**/*.json"
   },
   "author": "hank <hankchiu.tw@gmail.com>",
   "license": "MIT",
@@ -20,6 +25,7 @@
     "jest": "^25.1.0",
     "jest-canvas-mock": "^2.2.0",
     "parcel": "^1.12.4",
+    "parcel-plugin-static-files-copy": "^2.3.1",
     "ts-jest": "^25.2.1",
     "typescript": "^3.8.3"
   },

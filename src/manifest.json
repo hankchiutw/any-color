@@ -9,7 +9,8 @@
     "persistent": false
   },
   "browser_action": {
-    "name": "Click to invoke AnyColor pointer"
+    "name": "Click to invoke AnyColor pointer",
+    "default_popup": "popup.html"
   },
   "permissions": ["http://*/*", "https://*/*", "activeTab", "tabCapture"],
   "content_scripts": [
