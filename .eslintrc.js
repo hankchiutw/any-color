@@ -4,6 +4,7 @@ yarn add -D\
   eslint\
   @typescript-eslint/parser\
   @typescript-eslint/eslint-plugin\
+  eslint-plugin-react\
   eslint-plugin-import
 */
 module.exports = {
@@ -20,6 +21,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
   ],
   overrides: [
     {
