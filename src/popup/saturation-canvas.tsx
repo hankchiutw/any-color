@@ -1,49 +1,62 @@
 import chroma from 'chroma-js';
 import paper from 'paper';
-import React, { useCallback } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { ColorContext } from './color-context';
 
-const Wrapper = styled.canvas`
-  background: linear-gradient(to top, #000, rgba(0, 0, 0, 0)),
+interface WrapperProps {
+  color: chroma.Color;
+}
+
+const Wrapper = styled.canvas.attrs((props: WrapperProps) => ({
+  style: {
+    background: `linear-gradient(to top, #000, rgba(0, 0, 0, 0)),
     linear-gradient(to right, #fff, rgba(255, 255, 255, 0)),
-    ${props => props.color};
-`;
+    ${chroma.hsv(props.color.get('hsv.h'), 1, 1).css()}`,
+  },
+}))``;
 
-function initCanvas(
-  element: HTMLCanvasElement,
-  props: SaturationCanvasProps
-) {
-  const project = new paper.Project(element);
-  const path = new paper.Path.Circle({
-    center: project.view.center,
-    radius: 5,
-    strokeColor: 'white',
-  });
+export class SaturationCanvas extends React.Component {
+  static contextType = ColorContext;
+  private project: paper.Project;
+  private pointer: paper.Path;
+  private width: number;
+  private height: number;
 
-  const { width, height } = project.view.viewSize;
-  const chromaColor = chroma(props.color);
-  const emitChange = (event: paper.MouseEvent) => {
-    path.position = event.point;
-    const { x, y } = path.position;
+  private initCanvas = (element: HTMLCanvasElement) => {
+    this.project = new paper.Project(element);
+    this.pointer = new paper.Path.Circle({
+      center: this.project.view.center,
+      radius: 5,
+      strokeColor: 'white',
+    });
 
-    const css = chromaColor
-      .set('hsv.s', x / width)
-      .set('hsv.v', 1 - y / height)
-      .css();
-    props.onChange(css);
+    const { width, height } = this.project.view.viewSize;
+    this.width = width;
+    this.height = height;
+
+    this.project.view.onMouseDrag = this.updateColor;
+    this.project.view.onMouseDown = this.updateColor;
   };
-  project.view.onMouseDrag = emitChange;
-  project.view.onMouseDown = emitChange;
-}
 
-interface SaturationCanvasProps {
-  color?: string;
-  onChange?: (color: string) => void;
-}
+  private updateColor = (event: paper.MouseEvent) => {
+    const { color, setColor } = this.context;
 
-export function SaturationCanvas(props: SaturationCanvasProps) {
-  const refCallback = useCallback(element => {
-    initCanvas(element, props);
-  }, []);
-  return <Wrapper as="canvas" ref={refCallback} color={props.color}></Wrapper>;
+    this.pointer.position = event.point;
+    const { x, y } = this.pointer.position;
+
+    setColor(
+      color.set('hsv.s', x / this.width).set('hsv.v', 1 - y / this.height)
+    );
+  };
+
+  render() {
+    return (
+      <Wrapper
+        as="canvas"
+        ref={this.initCanvas}
+        color={this.context.color}
+      ></Wrapper>
+    );
+  }
 }

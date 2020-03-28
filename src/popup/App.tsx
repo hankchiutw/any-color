@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { useColorContextDefault, ColorContext } from './color-context';
+import { HueSlider } from './hue-slider';
 import { SaturationCanvas } from './saturation-canvas';
 
 const Circle = styled.div.attrs(props => ({
@@ -13,13 +15,11 @@ const Circle = styled.div.attrs(props => ({
 `;
 
 export function App() {
-  const [color, setColor] = useState('');
-
   return (
-    <>
-      <SaturationCanvas color="yellow" onChange={setColor}></SaturationCanvas>
-      <Circle color={color} />
-      {color}
-    </>
+    <ColorContext.Provider value={useColorContextDefault()}>
+      <SaturationCanvas></SaturationCanvas>
+      <HueSlider />
+      <Circle />
+    </ColorContext.Provider>
   );
 }
