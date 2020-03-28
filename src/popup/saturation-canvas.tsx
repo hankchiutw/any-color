@@ -1,3 +1,4 @@
+import chroma from 'chroma-js';
 import paper from 'paper';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
@@ -8,22 +9,31 @@ const Wrapper = styled.canvas`
     ${props => props.color};
 `;
 
-function createCanvas(
+function initCanvas(
   element: HTMLCanvasElement,
   props: SaturationCanvasProps
 ) {
   const project = new paper.Project(element);
-  const fillColor = new paper.Color(props.color);
-  fillColor.alpha = 0.01;
   const path = new paper.Path.Circle({
     center: project.view.center,
     radius: 5,
     strokeColor: 'white',
-    fillColor,
   });
-  path.onMouseDrag = function(event: paper.MouseEvent) {
-    path.position = path.position.add(event.delta);
+
+  const { width, height } = project.view.viewSize;
+  const chromaColor = chroma(props.color);
+  const emitChange = (event: paper.MouseEvent) => {
+    path.position = event.point;
+    const { x, y } = path.position;
+
+    const css = chromaColor
+      .set('hsv.s', x / width)
+      .set('hsv.v', 1 - y / height)
+      .css();
+    props.onChange(css);
   };
+  project.view.onMouseDrag = emitChange;
+  project.view.onMouseDown = emitChange;
 }
 
 interface SaturationCanvasProps {
@@ -33,7 +43,7 @@ interface SaturationCanvasProps {
 
 export function SaturationCanvas(props: SaturationCanvasProps) {
   const refCallback = useCallback(element => {
-    createCanvas(element, props);
+    initCanvas(element, props);
   }, []);
   return <Wrapper as="canvas" ref={refCallback} color={props.color}></Wrapper>;
 }
