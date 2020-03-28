@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useColorContext } from './color-context';
+import { useColorContext } from '../color-context';
 
 const kSliderHeight = '10px';
 const kThumbSize = '16px';

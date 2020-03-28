@@ -2,7 +2,7 @@ import chroma from 'chroma-js';
 import paper from 'paper';
 import React from 'react';
 import styled from 'styled-components';
-import { ColorContext } from './color-context';
+import { ColorContext } from '../color-context';
 
 interface WrapperProps {
   color: chroma.Color;

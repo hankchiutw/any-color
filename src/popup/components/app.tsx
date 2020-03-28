@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useColorContextDefault, ColorContext } from './color-context';
+import { useColorContextDefault, ColorContext } from '../color-context';
 import { HueSlider } from './hue-slider';
 import { SaturationCanvas } from './saturation-canvas';
 
