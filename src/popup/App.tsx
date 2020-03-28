@@ -1,5 +1,10 @@
 import React from 'react';
+import { SaturationCanvas } from './saturation-canvas';
 
 export function App() {
-  return <div>hi</div>;
+  return (
+    <>
+      <SaturationCanvas color="yellow"></SaturationCanvas>
+    </>
+  );
 }
