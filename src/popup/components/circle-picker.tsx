@@ -2,6 +2,7 @@ import chroma from 'chroma-js';
 import React from 'react';
 import styled from 'styled-components';
 import { ColorContext } from '../color-context';
+import { kCirclePickerSize } from '../constants';
 
 interface WrapperProps {
   color: chroma.Color;
@@ -12,8 +13,8 @@ const Wrapper = styled.div.attrs((props: WrapperProps) => ({
     backgroundColor: props.color.css(),
   },
 }))`
-  width: 30px;
-  height: 30px;
+  width: ${kCirclePickerSize}px;
+  height: ${kCirclePickerSize}px;
   border-radius: 50%;
 `;
 

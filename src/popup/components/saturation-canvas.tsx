@@ -3,6 +3,7 @@ import paper from 'paper';
 import React from 'react';
 import styled from 'styled-components';
 import { ColorContext } from '../color-context';
+import { kSaturationCanvasHeight } from '../constants';
 
 interface WrapperProps {
   color: chroma.Color;
@@ -14,7 +15,9 @@ const Wrapper = styled.canvas.attrs((props: WrapperProps) => ({
     linear-gradient(to right, #fff, rgba(255, 255, 255, 0)),
     ${chroma.hsv(props.color.get('hsv.h'), 1, 1).css()}`,
   },
-}))``;
+}))`
+  height: ${kSaturationCanvasHeight}px;
+`;
 
 export class SaturationCanvas extends React.Component {
   static contextType = ColorContext;
@@ -27,7 +30,7 @@ export class SaturationCanvas extends React.Component {
     this.project = new paper.Project(element);
     this.pointer = new paper.Path.Circle({
       center: this.project.view.center,
-      radius: 5,
+      radius: 6,
       strokeColor: 'white',
     });
 

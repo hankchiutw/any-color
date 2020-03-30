@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useColorContext } from '../color-context';
-
-const kSliderHeight = '10px';
-const kThumbSize = '16px';
+import {
+  kSliderHeight,
+  kSliderThumbWidth,
+  kSliderThumbHeight,
+} from '../constants';
 
 const Wrapper = styled.input`
   appearance: none;
@@ -18,17 +20,19 @@ const Wrapper = styled.input`
     rgb(255, 255, 0) 83%,
     rgb(255, 0, 0) 100%
   );
-  border: none;
-  height: ${kSliderHeight};
+  border: solid 1px white;
+  border-radius: 4px;
+  width: 100%;
+  height: ${kSliderHeight}px;
   cursor: pointer;
 
   &::-webkit-slider-thumb {
     appearance: none;
-    width: ${kThumbSize};
-    height: ${kThumbSize};
+    width: ${kSliderThumbWidth}px;
+    height: ${kSliderThumbHeight}px;
     background: white;
     border-radius: 50%;
-    border: solid 1px grey;
+    box-shadow: rgba(0, 0, 0, 0.37) 0px 1px 4px 0px;
   }
 `;
 

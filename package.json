@@ -4,7 +4,7 @@
   "description": "Get any pixel color from current page",
   "main": "index.js",
   "scripts": {
-    "start": "parcel watch src/*.{ts*,html} --no-source-maps",
+    "start": "parcel serve src/*.{ts*,html} --no-source-maps",
     "build": "parcel build src/*.{ts*,html} --no-source-maps",
     "test": "jest"
   },
