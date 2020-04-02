@@ -6,11 +6,13 @@ import { AlphaSlider } from './alpha-slider';
 import { CirclePicker } from './circle-picker';
 import { HueSlider } from './hue-slider';
 import { SaturationCanvas } from './saturation-canvas';
+import { Dropper } from './dropper';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: ${kMainWidth}px;
+  box-shadow: rgba(0, 0, 0, 0.37) 0px 1px 4px 0px;
 `;
 
 const ControlSection = styled.div`
@@ -22,7 +24,7 @@ const ControlSection = styled.div`
 const SliderBlock = styled.div`
   flex: 1;
   align-self: stretch;
-  margin-left: 10px;
+  margin-left: 14px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -34,6 +36,7 @@ export function App() {
       <ColorContext.Provider value={useColorContextDefault()}>
         <SaturationCanvas></SaturationCanvas>
         <ControlSection>
+          <Dropper />
           <CirclePicker />
           <SliderBlock>
             <HueSlider />
