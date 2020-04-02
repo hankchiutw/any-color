@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useColorContextDefault, ColorContext } from '../color-context';
 import { kMainWidth } from '../constants';
+import { AlphaSlider } from './alpha-slider';
 import { CirclePicker } from './circle-picker';
 import { HueSlider } from './hue-slider';
 import { SaturationCanvas } from './saturation-canvas';
@@ -20,7 +21,11 @@ const ControlSection = styled.div`
 
 const SliderBlock = styled.div`
   flex: 1;
+  align-self: stretch;
   margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 export function App() {
@@ -32,6 +37,7 @@ export function App() {
           <CirclePicker />
           <SliderBlock>
             <HueSlider />
+            <AlphaSlider />
           </SliderBlock>
         </ControlSection>
       </ColorContext.Provider>
