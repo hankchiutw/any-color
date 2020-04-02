@@ -1,19 +1,19 @@
-import chroma from 'chroma-js';
 import paper from 'paper';
 import React from 'react';
 import styled from 'styled-components';
 import { ColorContext } from '../color-context';
 import { kSaturationCanvasHeight } from '../constants';
+import { HSVColor } from '../models';
 
 interface WrapperProps {
-  color: chroma.Color;
+  color: HSVColor;
 }
 
 const Wrapper = styled.canvas.attrs((props: WrapperProps) => ({
   style: {
     background: `linear-gradient(to top, #000, rgba(0, 0, 0, 0)),
     linear-gradient(to right, #fff, rgba(255, 255, 255, 0)),
-    ${chroma.hsv(props.color.get('hsv.h'), 1, 1).css()}`,
+    ${props.color.hueCss()}`,
   },
 }))`
   height: ${kSaturationCanvasHeight}px;
@@ -43,13 +43,20 @@ export class SaturationCanvas extends React.Component {
   };
 
   private updateColor = (event: paper.MouseEvent) => {
+    if (!event.point.isInside(this.project.view.bounds)) {
+      return;
+    }
+
     const { color, setColor } = this.context;
 
     this.pointer.position = event.point;
     const { x, y } = this.pointer.position;
 
     setColor(
-      color.set('hsv.s', x / this.width).set('hsv.v', 1 - y / this.height)
+      color.clone({
+        s: x / this.width,
+        v: 1 - y / this.height,
+      })
     );
   };
 

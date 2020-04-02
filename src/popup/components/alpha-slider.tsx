@@ -14,16 +14,20 @@ const alphaGridCss =
 export function AlphaSlider() {
   const { color, setColor } = useColorContext();
   const updateColor = (event: React.FormEvent<HTMLInputElement>) => {
-    setColor(color.alpha(parseFloat((event.target as HTMLInputElement).value)));
+    setColor(
+      color.clone({
+        a: parseFloat((event.target as HTMLInputElement).value),
+      })
+    );
   };
   return (
     <Wrapper>
       <StyledSlider
         max={1}
         min={0}
-        defaultValue={color.alpha()}
+        defaultValue={color.alpha}
         onChange={updateColor}
-        primaryBackground={`linear-gradient(to right, rgba(0, 0, 0, 0) 0%, ${color.css()} 100%)`}
+        primaryBackground={`linear-gradient(to right, rgba(0, 0, 0, 0) 0%, ${color.rgbCss()} 100%)`}
         secondaryBackground={alphaGridCss}
         thumbSize={kSliderThumbSize}
       />

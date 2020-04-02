@@ -22,16 +22,19 @@ const hueGradientCss = `linear-gradient(
 export function HueSlider() {
   const { color, setColor } = useColorContext();
   const updateColor = (event: React.FormEvent<HTMLInputElement>) => {
-    const alpha = color.alpha();
     const hue = 360 - parseFloat((event.target as HTMLInputElement).value);
-    setColor(color.set('hsv.h', hue).alpha(alpha));
+    setColor(
+      color.clone({
+        h: hue,
+      })
+    );
   };
   return (
     <Wrapper>
       <StyledSlider
         max={360}
         min={0}
-        defaultValue={color.get('hsv.h')}
+        defaultValue={color.hsv.h || 0}
         onChange={updateColor}
         primaryBackground={hueGradientCss}
         thumbSize={kSliderThumbSize}

@@ -12,10 +12,6 @@ interface StyledSliderProps {
 }
 
 const defaultProps = {
-  // max: 100,
-  // min: 0,
-  // defaultValue: 50,
-  // onChange: () => null,
   primaryBackground: 'white',
   secondaryBackground: 'white',
   thumbSize: 10,
