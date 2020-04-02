@@ -34,7 +34,7 @@ export function HueSlider() {
       <StyledSlider
         max={360}
         min={0}
-        defaultValue={color.hsv.h || 0}
+        defaultValue={color.hsv.h}
         onChange={updateColor}
         primaryBackground={hueGradientCss}
         thumbSize={kSliderThumbSize}

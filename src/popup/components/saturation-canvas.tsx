@@ -43,19 +43,17 @@ export class SaturationCanvas extends React.Component {
   };
 
   private updateColor = (event: paper.MouseEvent) => {
-    if (!event.point.isInside(this.project.view.bounds)) {
-      return;
-    }
-
     const { color, setColor } = this.context;
 
-    this.pointer.position = event.point;
-    const { x, y } = this.pointer.position;
+    const { x, y } = event.point;
+    const px = Math.max(0, Math.min(x, this.width));
+    const py = Math.max(0, Math.min(y, this.height));
+    this.pointer.position = new paper.Point(px, py);
 
     setColor(
       color.clone({
-        s: x / this.width,
-        v: 1 - y / this.height,
+        s: px / this.width,
+        v: 1 - py / this.height,
       })
     );
   };
