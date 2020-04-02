@@ -51,6 +51,10 @@ const Slider = styled.input.attrs((props: StyledSliderProps) => {
     border-radius: 50%;
     box-shadow: rgba(0, 0, 0, 0.37) 0px 1px 4px 0px;
   }
+
+  &::-webkit-slider-runnable-track {
+    margin: -${props => props.thumbSize / 2}px;
+  }
 `;
 
 export function StyledSlider(propsIn: StyledSliderProps) {
