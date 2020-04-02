@@ -6,7 +6,7 @@
   "scripts": {
     "start": "parcel serve src/*.{ts*,html} --no-source-maps",
     "build": "parcel build src/*.{ts*,html} --no-source-maps",
-    "lint": "eslint './src/**/*.{ts,tsx,js,jsx}'",
+    "lint": "tsc --noEmit && eslint './src/**/*.{ts,tsx,js,jsx}'",
     "lint:fix": "yarn lint --fix && pretty-quick --staged",
     "test": "jest"
   },
