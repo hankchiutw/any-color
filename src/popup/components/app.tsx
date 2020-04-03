@@ -4,9 +4,9 @@ import { useColorContextDefault, ColorContext } from '../color-context';
 import { kMainWidth } from '../constants';
 import { AlphaSlider } from './alpha-slider';
 import { CirclePicker } from './circle-picker';
+import { Dropper } from './dropper';
 import { HueSlider } from './hue-slider';
 import { SaturationCanvas } from './saturation-canvas';
-import { Dropper } from './dropper';
 
 const Wrapper = styled.div`
   display: flex;

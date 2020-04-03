@@ -1,20 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { ColorContext } from '../color-context';
-import { kDropperCss } from '../constants';
+import { kDropperColor, kDropperActiveColor } from '../constants';
 
-const Wrapper = styled.div`
+interface WrapperProps {
+  active: boolean;
+}
+
+const Wrapper = styled.div<WrapperProps>`
   width: 16px;
   height: 16px;
   margin-right: 14px;
-  background: ${kDropperCss};
-  background-size: contain;
+  color: ${(props) => (props.active ? kDropperActiveColor : kDropperColor)};
 `;
 
-export class Dropper extends React.Component {
-  static contextType = ColorContext;
+export function Dropper() {
+  const [active, setActive] = useState(false);
+  const toggleActive = () => {
+    setActive(!active);
+  };
 
-  render() {
-    return <Wrapper></Wrapper>;
-  }
+  return (
+    <Wrapper
+      className="icon-dropper"
+      active={active}
+      onClick={toggleActive}
+    ></Wrapper>
+  );
 }
