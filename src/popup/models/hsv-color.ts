@@ -12,6 +12,17 @@ export class HSVColor {
     return new HSVColor(h, s, v, a);
   }
 
+  public static fromHEX(hex: string) {
+    if (!chroma.valid(hex)) {
+      console.warn('Invalid hex:', hex);
+      return;
+    }
+    const chromaColor = chroma(hex);
+    const [h, s, v] = chromaColor.hsv();
+    const color = new HSVColor(h, s, v, chromaColor.alpha());
+    return color;
+  }
+
   private h: number;
   private s: number;
   private v: number;
@@ -26,7 +37,7 @@ export class HSVColor {
     this.color = chroma.hsv(h, s, v).alpha(a);
   }
 
-  public get hsv() {
+  public get hsv(): ColorChannel {
     return {
       h: this.h,
       s: this.s,
@@ -34,7 +45,11 @@ export class HSVColor {
     };
   }
 
-  public get alpha() {
+  public get hex(): string {
+    return this.color.hex();
+  }
+
+  public get alpha(): number {
     return this.a;
   }
 
