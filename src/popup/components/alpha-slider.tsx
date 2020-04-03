@@ -22,7 +22,7 @@ export function AlphaSlider() {
       <StyledSlider
         max={1}
         min={0}
-        defaultValue={color.alpha}
+        value={color.alpha}
         onChange={updateColor}
         primaryBackground={`linear-gradient(to right, rgba(0, 0, 0, 0) 0%, ${color.rgbCss()} 100%)`}
         secondaryBackground={kAlphaGridCss}

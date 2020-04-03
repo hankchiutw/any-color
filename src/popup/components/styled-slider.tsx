@@ -5,6 +5,7 @@ interface StyledSliderProps {
   max?: number;
   min?: number;
   defaultValue?: number;
+  value?: number;
   onChange?: (event: React.FormEvent<HTMLInputElement>) => void;
   primaryBackground?: string;
   secondaryBackground?: string;
@@ -53,7 +54,7 @@ const Slider = styled.input.attrs((props: StyledSliderProps) => {
   }
 
   &::-webkit-slider-runnable-track {
-    margin: -${props => props.thumbSize / 2}px;
+    margin: -${(props) => props.thumbSize / 2}px;
   }
 `;
 

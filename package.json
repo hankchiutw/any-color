@@ -16,7 +16,7 @@
     "watcherGlob": "**/*.json"
   },
   "husky": {
-    "hook": {
+    "hooks": {
       "pre-commit": "yarn lint:fix"
     }
   },
