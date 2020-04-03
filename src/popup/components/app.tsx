@@ -7,18 +7,20 @@ import { CirclePicker } from './circle-picker';
 import { Dropper } from './dropper';
 import { HueSlider } from './hue-slider';
 import { SaturationCanvas } from './saturation-canvas';
+import { ValuePicker } from './value-picker';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: ${kMainWidth}px;
   box-shadow: rgba(0, 0, 0, 0.37) 0px 1px 4px 0px;
+  padding-bottom: 8px;
 `;
 
 const ControlSection = styled.div`
   display: flex;
   align-items: center;
-  padding: 14px;
+  margin: 14px 14px 0;
 `;
 
 const SliderBlock = styled.div`
@@ -42,6 +44,9 @@ export function App() {
             <HueSlider />
             <AlphaSlider />
           </SliderBlock>
+        </ControlSection>
+        <ControlSection>
+          <ValuePicker />
         </ControlSection>
       </ColorContext.Provider>
     </Wrapper>
