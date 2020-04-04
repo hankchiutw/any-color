@@ -34,17 +34,59 @@ const Wrapper = styled.div`
 
 interface Props {
   label: string;
-  defaultValue?: number | string;
-  value?: number | string;
-  onChange?: (event: React.FormEvent<HTMLInputElement>) => void;
+  defaultValue?: string;
+  value?: string;
+  onChange?: (value: string) => void;
+  maxLength?: number;
 }
 
-export function LabeledInput(props: Props) {
-  const { label, value, onChange } = props;
-  return (
-    <Wrapper>
-      <input value={value} onChange={onChange} />
-      <span>{label}</span>
-    </Wrapper>
-  );
+interface State {
+  // To make user be able to freely input something
+  transientValue: number | string;
+}
+
+/**
+ * @remarks
+ * The internal <input> element is not only tracking the Props.value,
+ * but also the internal state `transientValue`.
+ */
+export class LabeledInput extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      transientValue: props.value,
+    };
+  }
+
+  shouldComponentUpdate(nextProps: Props) {
+    if (this.props.value !== nextProps.value) {
+      this.setState({
+        transientValue: nextProps.value,
+      });
+    }
+    return true;
+  }
+
+  onChange = (event: React.FormEvent<HTMLInputElement>) => {
+    const value = (event.target as HTMLInputElement).value;
+    this.props.onChange && this.props.onChange(value);
+    this.setState({
+      transientValue: value,
+    });
+  };
+
+  render() {
+    const { maxLength } = this.props;
+    const inputProps = { maxLength };
+    return (
+      <Wrapper>
+        <input
+          value={this.state.transientValue}
+          onChange={this.onChange}
+          {...inputProps}
+        />
+        <span>{this.props.label}</span>
+      </Wrapper>
+    );
+  }
 }

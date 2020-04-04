@@ -4,6 +4,9 @@ interface ColorChannel {
   h?: number;
   s?: number;
   v?: number;
+  r?: number;
+  g?: number;
+  b?: number;
   a?: number;
 }
 
@@ -45,6 +48,15 @@ export class HSVColor {
     };
   }
 
+  public get rgb(): ColorChannel {
+    const [r, g, b] = this.color.rgb();
+    return {
+      r,
+      g,
+      b,
+    };
+  }
+
   public get hex(): string {
     return this.color.hex();
   }
@@ -60,6 +72,17 @@ export class HSVColor {
     a = this.a,
   }: ColorChannel = {}): HSVColor {
     return HSVColor.create(h, s, v, a);
+  }
+
+  public cloneRGB({
+    r = this.rgb.r,
+    g = this.rgb.g,
+    b = this.rgb.b,
+    a = this.a,
+  }: ColorChannel = {}): HSVColor {
+    const [h, s, v] = chroma(r, g, b).alpha(a).hsv();
+    // h would be NaN for white, black and gray.
+    return HSVColor.create(h || this.h, s, v, a);
   }
 
   public css(): string {
