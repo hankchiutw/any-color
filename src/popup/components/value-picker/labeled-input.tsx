@@ -42,7 +42,7 @@ interface Props {
 
 interface State {
   // To make user be able to freely input something
-  transientValue: number | string;
+  transientValue: string;
 }
 
 /**
@@ -51,6 +51,8 @@ interface State {
  * but also the internal state `transientValue`.
  */
 export class LabeledInput extends React.Component<Props, State> {
+  private inputRef: HTMLInputElement;
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -58,21 +60,58 @@ export class LabeledInput extends React.Component<Props, State> {
     };
   }
 
-  shouldComponentUpdate(nextProps: Props) {
+  shouldComponentUpdate(nextProps: Props, nextState: State) {
+    // change externally, update internal state
     if (this.props.value !== nextProps.value) {
       this.setState({
         transientValue: nextProps.value,
       });
     }
+
+    // change internally, emit onChange event
+    if (this.state.transientValue !== nextState.transientValue) {
+      this.props.onChange && this.props.onChange(nextState.transientValue);
+    }
     return true;
   }
 
-  onChange = (event: React.FormEvent<HTMLInputElement>) => {
+  /**
+   * Update internal state.
+   */
+  updateTransientValue = (event: React.FormEvent<HTMLInputElement>) => {
     const value = (event.target as HTMLInputElement).value;
-    this.props.onChange && this.props.onChange(value);
     this.setState({
       transientValue: value,
     });
+  };
+
+  /**
+   * Increase or decrease internal state value.
+   */
+  doMathByKey = (event: React.KeyboardEvent) => {
+    const num = parseFloat(this.state.transientValue);
+    if (isNaN(num)) {
+      return;
+    }
+
+    const delta =
+      {
+        40: -1, // down arrow key
+        38: 1, // up arrow key
+      }[event.keyCode] || 0;
+
+    if (delta !== 0) {
+      this.setState(
+        {
+          transientValue: (num + delta).toString(),
+        },
+        () => {
+          this.inputRef.select();
+        }
+      );
+      event.stopPropagation();
+      event.preventDefault();
+    }
   };
 
   render() {
@@ -81,8 +120,10 @@ export class LabeledInput extends React.Component<Props, State> {
     return (
       <Wrapper>
         <input
+          ref={(ref) => (this.inputRef = ref)}
           value={this.state.transientValue}
-          onChange={this.onChange}
+          onChange={this.updateTransientValue}
+          onKeyDown={this.doMathByKey}
           {...inputProps}
         />
         <span>{this.props.label}</span>
