@@ -1,71 +1,108 @@
-import React, { useState } from 'react';
-import { LabeledInput } from './labeled-input';
-import { useColorContext } from '~popup/color-context';
+import React from 'react';
+import { LabeledInput, Props as LabeledInputProps } from './labeled-input';
+import { ColorContext } from '~popup/color-context';
 
-export function RGBAInput() {
-  const [selectedOn, setSelectedOn] = useState('');
-  const { color, setColor } = useColorContext();
-  const { r, g, b } = color.rgb;
+type RGBAKey = 'r' | 'g' | 'b' | 'a';
 
-  const isSelected = (rgbaKey: string) => {
-    return selectedOn === rgbaKey;
-  };
+interface State {
+  selectedOn: RGBAKey;
+}
 
-  const updateColor = (rgbaKey: string, value: string) => {
+interface InputPropsFactoryPayload {
+  rgbaKey: RGBAKey;
+  mathUnit: number;
+  maxLength: number;
+}
+
+export class RGBAInput extends React.Component<{}, State> {
+  static contextType = ColorContext;
+
+  constructor(props: {}) {
+    super(props);
+    this.state = {
+      selectedOn: null,
+    };
+  }
+
+  private updateColor = (rgbaKey: RGBAKey, value: string) => {
+    const { color, setColor } = this.context;
     const num = parseFloat(value);
     if (isNaN(num)) {
       return;
     }
     setColor(color.cloneRGB({ [rgbaKey]: num }));
+    this.setState({
+      selectedOn: null,
+    });
   };
 
-  const doMath = (rgbaKey: string, value: string, delta: number) => {
+  private doMath = (rgbaKey: RGBAKey, value: string, delta: number) => {
     const num = parseFloat(value);
     if (isNaN(num)) {
       return;
     }
-    updateColor(rgbaKey, (num + delta).toString());
-    setSelectedOn(rgbaKey);
+    this.updateColor(rgbaKey, (num + delta).toString());
+    this.setState({
+      selectedOn: rgbaKey,
+    });
   };
 
-  return (
-    <>
-      <LabeledInput
-        maxLength={3}
-        label="R"
-        value={r.toString()}
-        onChange={(value) => updateColor('r', value)}
-        onArrowUp={(value) => doMath('r', value, 1)}
-        onArrowDown={(value) => doMath('r', value, -1)}
-        selected={isSelected('r')}
-      />
-      <LabeledInput
-        maxLength={3}
-        label="G"
-        value={g.toString()}
-        onChange={(value) => updateColor('g', value)}
-        onArrowUp={(value) => doMath('g', value, 1)}
-        onArrowDown={(value) => doMath('g', value, -1)}
-        selected={isSelected('g')}
-      />
-      <LabeledInput
-        maxLength={3}
-        label="B"
-        value={b.toString()}
-        onChange={(value) => updateColor('b', value)}
-        onArrowUp={(value) => doMath('b', value, 1)}
-        onArrowDown={(value) => doMath('b', value, -1)}
-        selected={isSelected('b')}
-      />
-      <LabeledInput
-        maxLength={4}
-        label="A"
-        value={color.alpha.toString()}
-        onChange={(value) => updateColor('a', value)}
-        onArrowUp={(value) => doMath('a', value, 0.01)}
-        onArrowDown={(value) => doMath('a', value, -0.01)}
-        selected={isSelected('a')}
-      />
-    </>
-  );
+  private inputPropsFactory = (
+    payload: InputPropsFactoryPayload
+  ): Partial<LabeledInputProps> => {
+    const { rgbaKey, mathUnit, maxLength } = payload;
+    const { color } = this.context;
+    const value = (rgbaKey === 'a'
+      ? color.alpha
+      : color.rgb[rgbaKey]
+    ).toString();
+
+    const isSelected = (rgbaKey: RGBAKey) => {
+      return this.state.selectedOn === rgbaKey;
+    };
+    return {
+      maxLength,
+      label: rgbaKey.toUpperCase(),
+      onChange: (value) => this.updateColor(rgbaKey, value),
+      onArrowUp: (value) => this.doMath(rgbaKey, value, mathUnit),
+      onArrowDown: (value) => this.doMath(rgbaKey, value, -mathUnit),
+      selected: isSelected(rgbaKey),
+      value,
+    };
+  };
+
+  render() {
+    return (
+      <>
+        <LabeledInput
+          {...this.inputPropsFactory({
+            rgbaKey: 'r',
+            mathUnit: 1,
+            maxLength: 3,
+          })}
+        />
+        <LabeledInput
+          {...this.inputPropsFactory({
+            rgbaKey: 'g',
+            mathUnit: 1,
+            maxLength: 3,
+          })}
+        />
+        <LabeledInput
+          {...this.inputPropsFactory({
+            rgbaKey: 'b',
+            mathUnit: 1,
+            maxLength: 3,
+          })}
+        />
+        <LabeledInput
+          {...this.inputPropsFactory({
+            rgbaKey: 'a',
+            mathUnit: 0.01,
+            maxLength: 4,
+          })}
+        />
+      </>
+    );
+  }
 }

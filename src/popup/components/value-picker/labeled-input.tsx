@@ -32,10 +32,11 @@ const Wrapper = styled.div`
   }
 `;
 
-interface Props extends Omit<React.HTMLProps<HTMLInputElement>, 'onChange'> {
-  label: string;
+export interface Props {
+  label?: string;
   defaultValue?: string;
   value?: string;
+  maxLength?: number;
   onChange?: (value: string) => void;
   onArrowUp?: (value: string) => void;
   onArrowDown?: (value: string) => void;
