@@ -32,12 +32,14 @@ const Wrapper = styled.div`
   }
 `;
 
-interface Props {
+interface Props extends Omit<React.HTMLProps<HTMLInputElement>, 'onChange'> {
   label: string;
   defaultValue?: string;
   value?: string;
   onChange?: (value: string) => void;
-  maxLength?: number;
+  onArrowUp?: (value: string) => void;
+  onArrowDown?: (value: string) => void;
+  selected?: boolean;
 }
 
 interface State {
@@ -75,6 +77,12 @@ export class LabeledInput extends React.Component<Props, State> {
     return true;
   }
 
+  componentDidUpdate() {
+    if (this.props.selected) {
+      this.inputRef.select();
+    }
+  }
+
   /**
    * Update internal state.
    */
@@ -85,30 +93,21 @@ export class LabeledInput extends React.Component<Props, State> {
     });
   };
 
-  /**
-   * Increase or decrease internal state value.
-   */
-  doMathByKey = (event: React.KeyboardEvent) => {
+  emitArrowEvent = (event: React.KeyboardEvent) => {
     const num = parseFloat(this.state.transientValue);
     if (isNaN(num)) {
       return;
     }
 
-    const delta =
-      {
-        40: -1, // down arrow key
-        38: 1, // up arrow key
-      }[event.keyCode] || 0;
+    const action = {
+      // down arrow key
+      40: this.props.onArrowDown,
+      // up arrow key
+      38: this.props.onArrowUp,
+    }[event.keyCode];
 
-    if (delta !== 0) {
-      this.setState(
-        {
-          transientValue: (num + delta).toString(),
-        },
-        () => {
-          this.inputRef.select();
-        }
-      );
+    if (action) {
+      action(this.state.transientValue);
       event.stopPropagation();
       event.preventDefault();
     }
@@ -123,7 +122,7 @@ export class LabeledInput extends React.Component<Props, State> {
           ref={(ref) => (this.inputRef = ref)}
           value={this.state.transientValue}
           onChange={this.updateTransientValue}
-          onKeyDown={this.doMathByKey}
+          onKeyDown={this.emitArrowEvent}
           {...inputProps}
         />
         <span>{this.props.label}</span>
