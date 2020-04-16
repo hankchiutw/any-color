@@ -20,9 +20,12 @@ export class HSVColor {
       console.warn('Invalid hex:', hex);
       return;
     }
+    let alpha = parseInt(hex.substr(7, 2), 16) / 255;
+    alpha = isNaN(alpha) ? 1 : alpha;
+
     const chromaColor = chroma(hex);
     const [h, s, v] = chromaColor.hsv();
-    const color = new HSVColor(h, s, v, chromaColor.alpha());
+    const color = new HSVColor(h, s, v, alpha);
     return color;
   }
 

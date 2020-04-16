@@ -95,11 +95,6 @@ export class LabeledInput extends React.Component<Props, State> {
   };
 
   emitArrowEvent = (event: React.KeyboardEvent) => {
-    const num = parseFloat(this.state.transientValue);
-    if (isNaN(num)) {
-      return;
-    }
-
     const action = {
       // down arrow key
       40: this.props.onArrowDown,
