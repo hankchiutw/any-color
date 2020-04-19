@@ -1,7 +1,7 @@
 import React from 'react';
 import { LabeledInput } from './labeled-input';
 import { ColorContext } from '~popup/color-context';
-import { HSVColor } from '~popup/models';
+import { ChromaColor } from '~popup/models';
 
 interface State {
   selected: boolean;
@@ -22,7 +22,7 @@ export class HEXInput extends React.Component<{}, State> {
    */
   private updateHEX = (hex: string) => {
     const { setColor } = this.context;
-    const color = HSVColor.fromHEX(hex);
+    const color = ChromaColor.create(hex);
     color && setColor(color);
     this.setState({
       selected: false,

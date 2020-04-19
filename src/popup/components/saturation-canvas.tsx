@@ -3,10 +3,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { ColorContext } from '../color-context';
 import { kSaturationCanvasHeight } from '../constants';
-import { HSVColor } from '../models';
+import { ChromaColor } from '../models';
 
 interface WrapperProps {
-  color: HSVColor;
+  color: ChromaColor;
 }
 
 const Wrapper = styled.canvas.attrs((props: WrapperProps) => ({
@@ -54,7 +54,7 @@ export class SaturationCanvas extends React.Component {
     this.context.setColor(this.pointToColor(this.pointer.position));
   };
 
-  private pointToColor(point: paper.Point): HSVColor {
+  private pointToColor(point: paper.Point): ChromaColor {
     const { x, y } = point;
     return this.context.color.clone({
       s: x / this.width,
@@ -62,7 +62,7 @@ export class SaturationCanvas extends React.Component {
     });
   }
 
-  private colorToPoint(color: HSVColor): paper.Point {
+  private colorToPoint(color: ChromaColor): paper.Point {
     const { s, v } = color.hsv;
     return new paper.Point(s * this.width, (1 - v) * this.height);
   }

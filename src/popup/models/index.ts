@@ -1,1 +1,1 @@
-export * from './hsv-color';
+export * from './chroma-color';

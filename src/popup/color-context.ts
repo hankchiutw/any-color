@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
-import { HSVColor } from './models';
+import { ChromaColor } from './models';
 
-const kDefaultColor = HSVColor.create(0, 1, 1);
+const kDefaultColor = ChromaColor.fromHSV(0, 1, 1);
 
 export const ColorContext = React.createContext({
   color: kDefaultColor,

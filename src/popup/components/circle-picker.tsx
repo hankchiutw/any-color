@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { ColorContext } from '../color-context';
 import { kCirclePickerSize, kAlphaGridCss } from '../constants';
-import { HSVColor } from '../models';
+import { ChromaColor } from '../models';
 
 interface WrapperProps {
-  color: HSVColor;
+  color: ChromaColor;
 }
 
 const Wrapper = styled.div.attrs((props: WrapperProps) => ({
