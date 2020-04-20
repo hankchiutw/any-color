@@ -26,6 +26,10 @@ export class SaturationCanvas extends React.Component {
   private width: number;
   private height: number;
 
+  // Somehow context.color is different in setColor and componentDidUpdate,
+  // hence we use this flag to skip pointer update in componentDidUpdate.
+  private internalUpdating = false;
+
   private initCanvas = (element: HTMLCanvasElement) => {
     this.project = new paper.Project(element);
 
@@ -51,7 +55,9 @@ export class SaturationCanvas extends React.Component {
     const py = Math.max(0, Math.min(y, this.height));
     this.pointer.position = new paper.Point(px, py);
 
+    this.internalUpdating = true;
     this.context.setColor(this.pointToColor(this.pointer.position));
+    this.internalUpdating = false;
   };
 
   private pointToColor(point: paper.Point): ChromaColor {
@@ -68,6 +74,9 @@ export class SaturationCanvas extends React.Component {
   }
 
   componentDidUpdate() {
+    if (this.internalUpdating) {
+      return;
+    }
     this.pointer.position = this.colorToPoint(this.context.color);
   }
 
