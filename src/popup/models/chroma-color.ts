@@ -79,7 +79,8 @@ export class ChromaColor {
   }
 
   public css(): string {
-    return this.color.css();
+    // Note: chroma.js's bug: the css() function actually changes the color instance itself
+    return this.color.alpha(this.alpha).css();
   }
 
   public hueCss(): string {
