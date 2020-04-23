@@ -34,7 +34,9 @@ export class HEXInput extends React.Component<{}, State> {
     if (isNaN(num)) {
       return;
     }
-    const newNum = (num + delta).toString(16);
+
+    // safely fill zero from left
+    const newNum = (num + delta + 0x1000000).toString(16).substr(1);
     this.updateHEX(`#${newNum}`);
     this.setState({
       selected: true,
