@@ -64,16 +64,18 @@ export class LabeledInput extends React.Component<Props, State> {
   }
 
   shouldComponentUpdate(nextProps: Props, nextState: State) {
-    // change externally, update internal state
+    // change externally, bypass the changing to internal
     if (this.props.value !== nextProps.value) {
       this.setState({
         transientValue: nextProps.value,
       });
-    }
-
-    // change internally, emit onChange event
-    if (this.state.transientValue !== nextState.transientValue) {
-      this.props.onChange && this.props.onChange(nextState.transientValue);
+    } else if (
+      this.state.transientValue !== nextState.transientValue &&
+      nextState.transientValue !== this.props.value &&
+      this.props.onChange
+    ) {
+      // change internally(explicitly by user input), emit onChange event
+      this.props.onChange(nextState.transientValue);
     }
     return true;
   }
