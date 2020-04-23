@@ -38,8 +38,7 @@ export class ChromaColor {
   }
 
   public get rgb(): ColorChannel {
-    // can be float number
-    const [r, g, b] = this.color.rgb(false);
+    const [r, g, b] = this.color.rgb();
     return {
       r,
       g,
