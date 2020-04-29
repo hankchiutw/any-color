@@ -4,6 +4,11 @@
   "manifest_version": 2,
   "description": "Get any pixel color from current page",
   "homepage_url": "https://hankchiu.tw",
+  "icons": {
+    "16": "assets/icon16.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  },
   "background": {
     "scripts": ["background.js", "hot-reload.js"],
     "persistent": false

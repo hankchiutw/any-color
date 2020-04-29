@@ -11,9 +11,11 @@
     "test": "jest"
   },
   "staticFiles": {
-    "staticPath": "src",
-    "excludeGlob": "**/*.!(json)",
-    "watcherGlob": "**/*.json"
+    "staticPath": [
+      "src"
+    ],
+    "excludeGlob": "**/*.!(json|png)",
+    "watcherGlob": "**/*.(json|png)"
   },
   "husky": {
     "hooks": {
