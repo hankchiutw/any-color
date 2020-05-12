@@ -40,6 +40,7 @@
     "husky": "^4.2.3",
     "jest": "^25.1.0",
     "jest-canvas-mock": "^2.2.0",
+    "jest-webextension-mock": "^3.5.4",
     "parcel": "^1.12.4",
     "parcel-plugin-static-files-copy": "^2.3.1",
     "prettier": "^2.0.2",
