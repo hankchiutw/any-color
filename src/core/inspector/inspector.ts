@@ -1,5 +1,6 @@
 import { injectable } from 'inversify';
 import paper from 'paper';
+import { PaperProject } from '../paper-project';
 import { PixelCell } from './pixel-cell';
 import { createCursor, createCircleMask } from './primitive-factory';
 import 'reflect-metadata';
@@ -17,8 +18,9 @@ export class Inspector {
     return this.cells[(this.cells.length - 1) / 2];
   }
 
-  constructor() {
+  constructor(private project: PaperProject) {
     this.initGroup();
+    this.trackMouse();
   }
 
   public loadImage(img: HTMLImageElement) {
@@ -67,5 +69,14 @@ export class Inspector {
 
     this.group = new paper.Group([magnifier, cursor]);
     this.group.pivot = new paper.Point(0, 0);
+  }
+
+  /**
+   * Keep inspector's position sync with mouse.
+   */
+  private trackMouse() {
+    this.project.view.on('mousemove', ({ point }) => {
+      this.moveTo(point);
+    });
   }
 }

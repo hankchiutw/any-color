@@ -1,6 +1,5 @@
 import { injectable } from 'inversify';
-import { Inspector } from './core/inspector';
-import { Project } from './core/project';
+import { PaperProject, Project, paperProject, Inspector } from './core';
 import { container, MessageService, CapturedTab } from '~/common';
 import 'reflect-metadata';
 
@@ -13,14 +12,8 @@ class ContentMain {
     private project: Project,
     private inspector: Inspector
   ) {
-    this.initInspector();
     this.handleViewportChange();
     this.handleMessage();
-  }
-
-  private initInspector() {
-    this.project.attachInspector(this.inspector);
-    this.project.hide();
   }
 
   private handleMessage() {
@@ -66,6 +59,7 @@ class ContentMain {
   };
 }
 
+container.bind<PaperProject>(PaperProject).toConstantValue(paperProject);
 container.bind<Project>(Project).toSelf();
 container.bind<Inspector>(Inspector).toSelf();
 container.bind<ContentMain>(ContentMain).toSelf();

@@ -1,15 +1,15 @@
 import { injectable } from 'inversify';
 import paper from 'paper';
-import { Inspector } from './inspector';
+import { PaperProject } from './paper-project';
 import 'reflect-metadata';
 
 @injectable()
 export class Project {
-  private project: paper.Project;
   private view: paper.View;
 
-  constructor() {
-    this.initProject();
+  constructor(private project: PaperProject) {
+    this.view = this.project.view;
+    this.hide();
   }
 
   public get visible() {
@@ -29,31 +29,5 @@ export class Project {
     this.view.element.style.opacity = '1';
     this.view.element.style.cursor = `none`;
     this.view.requestUpdate();
-  }
-
-  // TODO: inject paper.Project to Inspector and track mouse there
-  public attachInspector(inspector: Inspector) {
-    this.view.on('mousemove', ({ point }) => {
-      inspector.moveTo(point);
-    });
-  }
-
-  private initProject() {
-    const canvas = document.createElement('canvas');
-    canvas.setAttribute(
-      'style',
-      `
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        top: 0;
-        z-index: 999;
-        `
-    );
-
-    this.project = new paper.Project(canvas);
-    this.view = this.project.view;
-    // XXX
-    document.body.insertAdjacentElement('afterbegin', this.view.element);
   }
 }
