@@ -13,7 +13,7 @@ export class Project {
   }
 
   public get visible() {
-    return this.view.element.style.opacity === '1';
+    return this.view.element.style.opacity !== 'hidden';
   }
 
   public setSize(width: number, height: number) {
@@ -21,12 +21,12 @@ export class Project {
   }
 
   public hide() {
-    this.view.element.style.opacity = '0';
+    this.view.element.style.visibility = 'hidden';
     this.view.element.style.cursor = `inherit`;
   }
 
   public show() {
-    this.view.element.style.opacity = '1';
+    this.view.element.style.visibility = 'inherit';
     this.view.element.style.cursor = `none`;
     this.view.requestUpdate();
   }
