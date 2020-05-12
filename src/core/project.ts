@@ -1,14 +1,44 @@
+import { injectable } from 'inversify';
 import paper from 'paper';
 import { Inspector } from './inspector';
+import 'reflect-metadata';
 
+@injectable()
 export class Project {
   private project: paper.Project;
-
-  public static create() {
-    return new Project();
-  }
+  private view: paper.View;
 
   constructor() {
+    this.initProject();
+  }
+
+  public get visible() {
+    return this.view.element.style.opacity === '1';
+  }
+
+  public setSize(width: number, height: number) {
+    this.view.viewSize = new paper.Size(width, height);
+  }
+
+  public hide() {
+    this.view.element.style.opacity = '0';
+    this.view.element.style.cursor = `inherit`;
+  }
+
+  public show() {
+    this.view.element.style.opacity = '1';
+    this.view.element.style.cursor = `none`;
+    this.view.requestUpdate();
+  }
+
+  // TODO: inject paper.Project to Inspector and track mouse there
+  public attachInspector(inspector: Inspector) {
+    this.view.on('mousemove', ({ point }) => {
+      inspector.moveTo(point);
+    });
+  }
+
+  private initProject() {
     const canvas = document.createElement('canvas');
     canvas.setAttribute(
       'style',
@@ -22,30 +52,8 @@ export class Project {
     );
 
     this.project = new paper.Project(canvas);
+    this.view = this.project.view;
     // XXX
-    document.body.insertAdjacentElement(
-      'afterbegin',
-      this.project.view.element
-    );
-  }
-
-  public setSize(width: number, height: number) {
-    this.project.view.viewSize = new paper.Size(width, height);
-  }
-
-  public hide() {
-    this.project.view.element.style.opacity = '0';
-  }
-
-  public show() {
-    this.project.view.element.style.opacity = '1';
-    this.project.view.requestUpdate();
-  }
-
-  public attachInspector(inspector: Inspector) {
-    this.project.view.element.style.cursor = `none`;
-    this.project.view.on('mousemove', ({ point }) => {
-      inspector.moveTo(point);
-    });
+    document.body.insertAdjacentElement('afterbegin', this.view.element);
   }
 }

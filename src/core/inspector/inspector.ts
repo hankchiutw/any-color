@@ -1,10 +1,13 @@
+import { injectable } from 'inversify';
 import paper from 'paper';
 import { PixelCell } from './pixel-cell';
 import { createCursor, createCircleMask } from './primitive-factory';
+import 'reflect-metadata';
 
 const kInspectorSize = 11; // should be odd
 const kCellSize = 30;
 
+@injectable()
 export class Inspector {
   private group: paper.Group;
   private cells: PixelCell[] = [];
@@ -12,10 +15,6 @@ export class Inspector {
 
   private get targetCell() {
     return this.cells[(this.cells.length - 1) / 2];
-  }
-
-  public static create() {
-    return new Inspector();
   }
 
   constructor() {
@@ -38,7 +37,7 @@ export class Inspector {
 
   public moveTo(point: paper.Point) {
     this.group.position = point;
-    this.cells.forEach(cell => {
+    this.cells.forEach((cell) => {
       cell.setColor(this.raster.getPixel(cell.position));
     });
   }
@@ -62,7 +61,7 @@ export class Inspector {
 
     const magnifier = createCircleMask({
       radius: (kInspectorSize * kCellSize) / 2,
-      children: this.cells.map(c => c.raw),
+      children: this.cells.map((c) => c.raw),
     });
     this.targetCell.highlight();
 

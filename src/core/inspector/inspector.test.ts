@@ -1,13 +1,10 @@
-import { Project } from '../project';
 import { Inspector } from './inspector';
+import '~/content';
+import { container } from '~/common';
 
 describe('Inspector', () => {
-  beforeAll(() => {
-    Project.create();
-  });
-
   it('should create a Inspector instance', () => {
-    const inspector = Inspector.create();
+    const inspector = container.get(Inspector);
     expect(inspector).toBeTruthy();
   });
 });

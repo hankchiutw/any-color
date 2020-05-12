@@ -1,42 +1,47 @@
-import { MessageService } from './core/message-service';
-import { toPromise } from './core/utils';
+import { injectable } from 'inversify';
+import { container, MessageService, toPromise, CapturedTab } from '~/common';
+import 'reflect-metadata';
 
-chrome.runtime.onInstalled.addListener(() => {
-  console.log('AnyColor installed.');
-});
+@injectable()
+class BackgroundMain {
+  constructor(private messageService: MessageService) {
+    chrome.runtime.onInstalled.addListener(() => {
+      console.log('AnyColor installed.');
+    });
 
-async function captureVisibleTab(tabId: number) {
-  const messageService = MessageService.create(tabId);
-  const latestTab = await toPromise<chrome.tabs.Tab>(chrome.tabs.get)(tabId);
-  const zoom: number = await toPromise<number>(chrome.tabs.getZoom)();
-  const width = latestTab.width / zoom;
-  const height = latestTab.height / zoom;
+    this.messageService.on('requestCapture', this.captureVisibleTab);
+  }
 
-  const imgSrc = await toPromise<string>(chrome.tabs.captureVisibleTab)(null, {
-    format: 'png',
-  });
+  private captureVisibleTab = async () => {
+    const tabs = await toPromise<chrome.tabs.Tab[]>(chrome.tabs.query)({
+      active: true,
+      currentWindow: true,
+    });
+    const latestTab = tabs[0];
+    const zoom: number = await toPromise<number>(chrome.tabs.getZoom)();
+    const width = latestTab.width / zoom;
+    const height = latestTab.height / zoom;
 
-  console.log(
-    'captureVisibleTab: src length, width, height:',
-    imgSrc.length,
-    width,
-    height
-  );
-  messageService.send('captureVisibleTab', {
-    imgSrc,
-    width,
-    height,
-  });
+    const imgSrc = await toPromise<string>(chrome.tabs.captureVisibleTab)(
+      null,
+      {
+        format: 'png',
+      }
+    );
+
+    console.log(
+      'captureVisibleTab: src length, width, height:',
+      imgSrc.length,
+      width,
+      height
+    );
+    this.messageService.sendTab('captured', {
+      imgSrc,
+      width,
+      height,
+    } as CapturedTab);
+  };
 }
 
-chrome.browserAction.onClicked.addListener(async (tab: chrome.tabs.Tab) => {
-  const messageService = MessageService.create(tab.id);
-
-  messageService.send('init');
-
-  captureVisibleTab(tab.id);
-
-  messageService.on('requestCapture', () => {
-    captureVisibleTab(tab.id);
-  });
-});
+container.bind<BackgroundMain>(BackgroundMain).toSelf();
+container.resolve(BackgroundMain);
