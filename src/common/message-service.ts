@@ -11,20 +11,26 @@ export type EventDetail = {};
 
 @injectable()
 export class MessageService {
-  public async sendTab(eventName: string, detail = {}) {
+  /**
+   * Send message to a {@link chrome.tabs.Tab}.
+   */
+  public async sendTab(eventName: string, detail = {}): Promise<void> {
     const tabs = await toPromise<chrome.tabs.Tab[]>(chrome.tabs.query)({
       active: true,
       currentWindow: true,
     });
 
-    chrome.tabs.sendMessage(tabs[0].id, {
+    return toPromise<void>(chrome.tabs.sendMessage)(tabs[0].id, {
       eventName,
       detail,
     } as EventPayload);
   }
 
-  public async send(eventName: string, detail = {}) {
-    chrome.runtime.sendMessage({
+  /**
+   * Send message to runtime (background script).
+   */
+  public async send(eventName: string, detail = {}): Promise<void> {
+    return toPromise<void>(chrome.runtime.sendMessage)({
       eventName,
       detail,
     } as EventPayload);
