@@ -17,14 +17,8 @@ class ContentMain {
   }
 
   private handleMessage() {
-    this.messageService.on('inspectorChange', this.updateInspector);
     this.messageService.on('captured', this.updateImage);
   }
-
-  private updateInspector = (active: boolean) => {
-    this.inspectorActive = active;
-    active ? this.project.show() : this.project.hide();
-  };
 
   /**
    * Keep capturing current tab image when viewport changed.
@@ -56,6 +50,7 @@ class ContentMain {
     img.src = imgSrc;
     this.inspector.loadImage(img);
     this.project.show();
+    this.inspectorActive = true;
   };
 }
 

@@ -36,7 +36,6 @@ export class Dropper extends React.Component<{}, State> {
   };
 
   componentDidUpdate() {
-    this.messageService.sendTab('inspectorChange', this.state.active);
     if (this.state.active) {
       this.messageService.send('requestCapture').then(() => {
         window.close();
