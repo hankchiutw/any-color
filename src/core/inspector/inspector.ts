@@ -19,7 +19,7 @@ export class Inspector {
   }
 
   constructor(private project: PaperProject) {
-    this.initGroup();
+    this.initUI();
     this.trackMouse();
   }
 
@@ -37,14 +37,25 @@ export class Inspector {
     });
   }
 
-  public moveTo(point: paper.Point) {
+  /**
+   * Update inspector's position.
+   *
+   * @remarks
+   * Update cell colors in the meanwhile if having the rater image.
+   */
+  private moveTo(point: paper.Point) {
     this.group.position = point;
-    this.cells.forEach((cell) => {
-      cell.setColor(this.raster.getPixel(cell.position));
-    });
+    if (this.raster) {
+      this.cells.forEach((cell) => {
+        cell.setColor(this.raster.getPixel(cell.position));
+      });
+    }
   }
 
-  private initGroup() {
+  /**
+   * Initialize inspector UI items, including the cursor and circular magnifier.
+   */
+  private initUI() {
     const cursor = createCursor();
 
     // make the inspector center representing the cursor center
@@ -77,6 +88,10 @@ export class Inspector {
   private trackMouse() {
     this.project.view.on('mousemove', ({ point }) => {
       this.moveTo(point);
+    });
+
+    document.body.addEventListener('mouseenter', ({ clientX, clientY }) => {
+      this.moveTo(new paper.Point(clientX, clientY));
     });
   }
 }
