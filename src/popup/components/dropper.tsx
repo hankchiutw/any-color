@@ -27,21 +27,21 @@ export class Dropper extends React.Component<{}, State> {
     this.state = {
       active: false,
     };
+    this.messageService.sendTab('requestDropperState');
+    // Note: only invoke `setState` here to ensure single source of truth on content script.
+    this.messageService.on('updateDropperState', (state: State) => {
+      this.setState(state);
+    });
   }
 
   private toggleActive = () => {
-    this.setState({
-      active: !this.state.active,
-    });
-  };
-
-  componentDidUpdate() {
-    if (this.state.active) {
-      this.messageService.send('requestCapture').then(() => {
-        window.close();
-      });
+    const active = !this.state.active;
+    if (active) {
+      this.messageService.send('requestCapture');
+      window.close();
     }
-  }
+    this.messageService.sendTab('toggleInspector');
+  };
 
   render() {
     return (

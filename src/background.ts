@@ -10,6 +10,7 @@ class BackgroundMain {
     });
 
     this.messageService.on('requestCapture', this.captureVisibleTab);
+    this.handleCommands();
   }
 
   private captureVisibleTab = async () => {
@@ -41,6 +42,14 @@ class BackgroundMain {
       height,
     } as CapturedTab);
   };
+
+  private handleCommands() {
+    chrome.commands.onCommand.addListener((command: string) => {
+      if (command === 'toggle-inspector') {
+        this.messageService.sendTab('toggleInspector');
+      }
+    });
+  }
 }
 
 container.bind<BackgroundMain>(BackgroundMain).toSelf();

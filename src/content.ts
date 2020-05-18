@@ -3,9 +3,15 @@ import { PaperProject, Project, paperProject, Inspector } from './core';
 import { container, MessageService, CapturedTab } from '~/common';
 import 'reflect-metadata';
 
+interface DropperState {
+  active: boolean;
+}
+
 @injectable()
 class ContentMain {
-  private inspectorActive = false;
+  private dropperState: DropperState = {
+    active: false,
+  };
 
   constructor(
     private messageService: MessageService,
@@ -18,6 +24,11 @@ class ContentMain {
 
   private handleMessage() {
     this.messageService.on('captured', this.updateImage);
+    this.messageService.on('toggleInspector', this.toggleInspector);
+    // TODO: enhance MessageService with response callback
+    this.messageService.on('requestDropperState', () => {
+      this.messageService.send('updateDropperState', this.dropperState);
+    });
   }
 
   /**
@@ -26,7 +37,7 @@ class ContentMain {
   private handleViewportChange() {
     let timerId: number;
     const debounceSend = () => {
-      if (!this.inspectorActive) {
+      if (!this.dropperState.active) {
         return;
       }
       window.clearTimeout(timerId);
@@ -50,7 +61,13 @@ class ContentMain {
     img.src = imgSrc;
     this.inspector.loadImage(img);
     this.project.show();
-    this.inspectorActive = true;
+    this.dropperState.active = true;
+  };
+
+  private toggleInspector = () => {
+    this.project.visible ? this.project.hide() : this.project.show();
+    this.dropperState.active = !this.project.visible;
+    this.messageService.send('updateDropperState', this.dropperState);
   };
 }
 

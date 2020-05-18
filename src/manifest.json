@@ -24,5 +24,14 @@
       "js": ["content.js"]
     }
   ],
+  "commands": {
+    "toggle-inspector": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+A",
+        "mac": "Command+Shift+A"
+      },
+      "description": "Toggle AnyColor inspector"
+    }
+  },
   "web_accessible_resources": ["assets/*"]
 }
