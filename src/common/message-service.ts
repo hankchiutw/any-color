@@ -7,20 +7,30 @@ interface EventPayload {
   detail?: EventDetail;
 }
 
+type EventCallback<T> = (detail: EventDetail) => T;
+
 export type EventDetail = {};
 
 @injectable()
 export class MessageService {
+  private eventMap: {
+    [eventName: string]: EventCallback<string | number | {}>;
+  } = {};
+
+  constructor() {
+    this.handleMessages();
+  }
+
   /**
    * Send message to a {@link chrome.tabs.Tab}.
    */
-  public async sendTab(eventName: string, detail = {}): Promise<void> {
+  public async sendTab<T>(eventName: string, detail = {}): Promise<T> {
     const tabs = await toPromise<chrome.tabs.Tab[]>(chrome.tabs.query)({
       active: true,
       currentWindow: true,
     });
 
-    return toPromise<void>(chrome.tabs.sendMessage)(tabs[0].id, {
+    return toPromise<T>(chrome.tabs.sendMessage)(tabs[0].id, {
       eventName,
       detail,
     } as EventPayload);
@@ -29,18 +39,26 @@ export class MessageService {
   /**
    * Send message to runtime (background script).
    */
-  public async send(eventName: string, detail = {}): Promise<void> {
-    return toPromise<void>(chrome.runtime.sendMessage)({
+  public async send<T>(eventName: string, detail = {}): Promise<T> {
+    return toPromise<T>(chrome.runtime.sendMessage)({
       eventName,
       detail,
     } as EventPayload);
   }
 
-  public on(eventName: string, callback: (detail: EventDetail) => void) {
-    chrome.runtime.onMessage.addListener((payload: EventPayload) => {
-      if (payload.eventName === eventName) {
-        callback(payload.detail);
+  public on<T>(eventName: string, callback: EventCallback<T>) {
+    this.eventMap[eventName] = callback;
+  }
+
+  private handleMessages() {
+    chrome.runtime.onMessage.addListener(
+      (payload: EventPayload, _sender, sendResponse) => {
+        const callback = this.eventMap[payload.eventName];
+        if (callback) {
+          const result = callback(payload.detail);
+          sendResponse(result);
+        }
       }
-    });
+    );
   }
 }

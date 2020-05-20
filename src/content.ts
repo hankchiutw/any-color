@@ -26,9 +26,10 @@ class ContentMain {
     this.messageService.on('captured', this.updateImage);
     this.messageService.on('toggleInspector', this.toggleInspector);
     // TODO: enhance MessageService with response callback
-    this.messageService.on('requestDropperState', () => {
-      this.messageService.send('updateDropperState', this.dropperState);
-    });
+    this.messageService.on<DropperState>(
+      'requestDropperState',
+      () => this.dropperState
+    );
   }
 
   /**
@@ -43,11 +44,15 @@ class ContentMain {
       window.clearTimeout(timerId);
       this.project.hide();
       timerId = window.setTimeout(() => {
-        this.messageService.send('requestCapture');
+        this.requestCapture();
       }, 200);
     };
     window.addEventListener('scroll', debounceSend);
     window.addEventListener('resize', debounceSend);
+  }
+
+  private requestCapture() {
+    this.messageService.send<CapturedTab>('requestCapture');
   }
 
   /**
@@ -65,9 +70,16 @@ class ContentMain {
   };
 
   private toggleInspector = () => {
-    this.project.visible ? this.project.hide() : this.project.show();
-    this.dropperState.active = !this.project.visible;
+    const nextValue = !this.project.visible;
+    if (nextValue) {
+      this.requestCapture();
+      this.project.show();
+    } else {
+      this.project.hide();
+    }
+    this.dropperState.active = nextValue;
     this.messageService.send('updateDropperState', this.dropperState);
+    return nextValue;
   };
 }
 

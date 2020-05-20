@@ -13,7 +13,7 @@ class BackgroundMain {
     this.handleCommands();
   }
 
-  private captureVisibleTab = async () => {
+  private captureVisibleTab = async (): Promise<CapturedTab> => {
     const tabs = await toPromise<chrome.tabs.Tab[]>(chrome.tabs.query)({
       active: true,
       currentWindow: true,
@@ -30,17 +30,14 @@ class BackgroundMain {
       }
     );
 
-    console.log(
-      'captureVisibleTab: src length, width, height:',
-      imgSrc.length,
-      width,
-      height
-    );
-    this.messageService.sendTab('captured', {
+    const capturedTab = {
       imgSrc,
       width,
       height,
-    } as CapturedTab);
+    };
+    console.log('captureVisibleTab:', capturedTab);
+    this.messageService.sendTab('captured', capturedTab);
+    return capturedTab;
   };
 
   private handleCommands() {
