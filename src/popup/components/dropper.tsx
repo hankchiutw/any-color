@@ -31,15 +31,11 @@ export class Dropper extends React.Component<{}, State> {
     this.messageService.sendTab<State>('requestDropperState').then((state) => {
       this.setState(state);
     });
-    this.messageService.on('updateDropperState', (state: State) => {
-      this.setState(state);
-    });
   }
 
-  private toggleActive = () => {
-    this.messageService.sendTab<boolean>('toggleInspector').then((active) => {
-      active && window.close();
-    });
+  private toggleActive = async () => {
+    await this.messageService.sendTab<boolean>('toggleInspector');
+    window.close();
   };
 
   render() {

@@ -78,7 +78,6 @@ class ContentMain {
       this.project.hide();
     }
     this.dropperState.active = nextValue;
-    this.messageService.send('updateDropperState', this.dropperState);
     return nextValue;
   };
 }
