@@ -18,9 +18,17 @@
     "excludeGlob": "**/*.!(json|png)",
     "watcherGlob": "**/*.(json|png)"
   },
+  "lint-staged": {
+    "*.+(js|jsx|ts|tsx)": [
+      "eslint --fix",
+      "prettier --write",
+      "bash -c tsc --noEmit"
+    ]
+  },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint:fix"
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true",
+      "pre-commit": "lint-staged"
     }
   },
   "author": "hank <hankchiu.tw@gmail.com>",
@@ -34,6 +42,7 @@
     "@types/styled-components": "^5.0.1",
     "@typescript-eslint/eslint-plugin": "^2.21.0",
     "@typescript-eslint/parser": "^2.21.0",
+    "commitizen": "^4.1.2",
     "cz-conventional-changelog": "3.2.0",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.20.1",
@@ -42,6 +51,7 @@
     "jest": "^25.1.0",
     "jest-canvas-mock": "^2.2.0",
     "jest-webextension-mock": "^3.5.4",
+    "lint-staged": "^10.2.6",
     "parcel": "^1.12.4",
     "parcel-plugin-static-files-copy": "^2.3.1",
     "prettier": "^2.0.2",
