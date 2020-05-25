@@ -1,5 +1,11 @@
 import { injectable } from 'inversify';
-import { PaperProject, Project, paperProject, Inspector } from './core';
+import {
+  PaperProject,
+  Project,
+  paperProject,
+  Inspector,
+  Notification,
+} from './core';
 import { container, MessageService, CapturedTab } from '~/common';
 import 'reflect-metadata';
 
@@ -85,5 +91,6 @@ class ContentMain {
 container.bind<PaperProject>(PaperProject).toConstantValue(paperProject);
 container.bind<Project>(Project).toSelf();
 container.bind<Inspector>(Inspector).toSelf();
+container.bind<Notification>(Notification).toSelf();
 container.bind<ContentMain>(ContentMain).toSelf();
 container.resolve(ContentMain);

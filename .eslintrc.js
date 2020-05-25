@@ -34,6 +34,7 @@ module.exports = {
   rules: {
     'comma-dangle': ['warn', 'always-multiline'],
     semi: ['warn', 'always'],
+    'no-console': ['warn'],
     'import/order': [
       'warn',
       {
