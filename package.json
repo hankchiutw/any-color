@@ -60,6 +60,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
+    "@webcomponents/webcomponentsjs": "^2.4.3",
     "chroma-js": "^2.1.0",
     "inversify": "^5.0.1",
     "inversify-inject-decorators": "^3.1.0",

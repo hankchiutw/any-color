@@ -1,4 +1,5 @@
 import { injectable } from 'inversify';
+import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import {
   PaperProject,
   Project,
