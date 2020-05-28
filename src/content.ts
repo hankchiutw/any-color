@@ -1,4 +1,4 @@
-import { injectable } from 'inversify';
+import { injectable, inject } from 'inversify';
 import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import {
   PaperProject,
@@ -6,24 +6,21 @@ import {
   paperProject,
   Inspector,
   Notification,
+  store,
+  Store,
+  APP_STORE,
+  AppState,
 } from './core';
 import { container, MessageService, CapturedTab } from '~/common';
 import 'reflect-metadata';
 
-interface DropperState {
-  active: boolean;
-}
-
 @injectable()
 class ContentMain {
-  private dropperState: DropperState = {
-    active: false,
-  };
-
   constructor(
     private messageService: MessageService,
     private project: Project,
-    private inspector: Inspector
+    private inspector: Inspector,
+    @inject(APP_STORE) private store: Store
   ) {
     this.handleViewportChange();
     this.handleMessage();
@@ -33,9 +30,8 @@ class ContentMain {
     this.messageService.on('captured', this.updateImage);
     this.messageService.on('toggleInspector', this.toggleInspector);
     // TODO: enhance MessageService with response callback
-    this.messageService.on<DropperState>(
-      'requestDropperState',
-      () => this.dropperState
+    this.messageService.on<AppState>('requestDropperState', () =>
+      this.store.getState()
     );
   }
 
@@ -45,7 +41,7 @@ class ContentMain {
   private handleViewportChange() {
     let timerId: number;
     const debounceSend = () => {
-      if (!this.dropperState.active) {
+      if (!this.store.getState().active) {
         return;
       }
       window.clearTimeout(timerId);
@@ -73,7 +69,7 @@ class ContentMain {
     img.src = imgSrc;
     this.inspector.loadImage(img);
     this.project.show();
-    this.dropperState.active = true;
+    this.store.dispatch({ type: 'SET_ACTIVE', value: true });
   };
 
   private toggleInspector = () => {
@@ -84,12 +80,13 @@ class ContentMain {
     } else {
       this.project.hide();
     }
-    this.dropperState.active = nextValue;
+    this.store.dispatch({ type: 'SET_ACTIVE', value: nextValue });
     return nextValue;
   };
 }
 
 container.bind<PaperProject>(PaperProject).toConstantValue(paperProject);
+container.bind<Store>(APP_STORE).toConstantValue(store);
 container.bind<Project>(Project).toSelf();
 container.bind<Inspector>(Inspector).toSelf();
 container.bind<Notification>(Notification).toSelf();

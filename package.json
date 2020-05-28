@@ -68,6 +68,7 @@
     "react": "^16.13.1",
     "react-color": "^2.18.0",
     "react-dom": "^16.13.1",
+    "redux": "^4.0.5",
     "reflect-metadata": "^0.1.13",
     "styled-components": "^5.0.1"
   },
