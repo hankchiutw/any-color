@@ -5,7 +5,7 @@ import {
   Project,
   paperProject,
   Inspector,
-  Notification,
+  Snackbar,
   store,
   Store,
   APP_STORE,
@@ -89,6 +89,6 @@ container.bind<PaperProject>(PaperProject).toConstantValue(paperProject);
 container.bind<Store>(APP_STORE).toConstantValue(store);
 container.bind<Project>(Project).toSelf();
 container.bind<Inspector>(Inspector).toSelf();
-container.bind<Notification>(Notification).toSelf();
+container.bind<Snackbar>(Snackbar).toSelf();
 container.bind<ContentMain>(ContentMain).toSelf();
 container.resolve(ContentMain);

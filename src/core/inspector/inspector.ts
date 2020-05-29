@@ -1,7 +1,7 @@
 import { injectable } from 'inversify';
 import paper from 'paper';
-import { Notification } from '../notification';
 import { PaperProject } from '../paper-project';
+import { Snackbar } from '../snackbar';
 import { PixelCell } from './pixel-cell';
 import { createCursor, createCircleMask } from './primitive-factory';
 import { copy } from '~/common/utils';
@@ -20,10 +20,7 @@ export class Inspector {
     return this.cells[(this.cells.length - 1) / 2];
   }
 
-  constructor(
-    private project: PaperProject,
-    private notification: Notification
-  ) {
+  constructor(private project: PaperProject, private snackbar: Snackbar) {
     this.initUI();
     this.trackMouse();
     this.handleColorCopy();
@@ -102,12 +99,12 @@ export class Inspector {
   }
 
   /**
-   * Deal with system copy and notification.
+   * Deal with system copy and snackbar.
    */
   private handleColorCopy() {
     this.project.view.on('click', () => {
       copy(this.targetCell.color);
-      this.notification.pop(this.targetCell.color);
+      this.snackbar.pop(this.targetCell.color);
     });
   }
 }
