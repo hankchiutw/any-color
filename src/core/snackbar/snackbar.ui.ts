@@ -1,9 +1,13 @@
 class UiSnackbar extends HTMLElement {
   private _shadow: ShadowRoot;
 
+  private get _rootElement(): HTMLElement {
+    return this._shadow.host as HTMLElement;
+  }
   private get _contentElement() {
     return this._shadow.querySelector('.content');
   }
+
   constructor() {
     super();
     this._shadow = this.attachShadow({ mode: 'closed' });
@@ -12,6 +16,10 @@ class UiSnackbar extends HTMLElement {
 
   pop(message: string) {
     this._contentElement.innerHTML = message;
+    this._rootElement.style.opacity = '1';
+    window.setTimeout(() => {
+      this._rootElement.style.opacity = '0';
+    }, 1600);
   }
 
   render() {
@@ -21,10 +29,19 @@ class UiSnackbar extends HTMLElement {
       position: fixed;
       top: 10px;
       right: 10px;
-      background: white;
-      border: solid 1px #cccccc;
-      padding: 10px;
+      background: #323232;
+      padding: 6px 16px;
       border-radius: 4px;
+      z-index: 999;
+      box-sizing: border-box;
+      height: 48px;
+      color: white;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+    .content {
+      display: inline;
+      vertical-align: -webkit-baseline-middle;
     }
     </style>
       <div class='content'>x</div>

@@ -8,7 +8,7 @@ export class Snackbar {
 
   constructor() {
     this.dom = document.createElement('ui-snackbar');
-    document.body.appendChild(this.dom);
+    document.body.prepend(this.dom);
   }
 
   public pop(message: string) {
