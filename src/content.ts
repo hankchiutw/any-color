@@ -1,4 +1,5 @@
 import { injectable, inject } from 'inversify';
+import 'regenerator-runtime/runtime';
 import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import {
   PaperProject,
