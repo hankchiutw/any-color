@@ -1,6 +1,7 @@
 import { injectable } from 'inversify';
 import 'reflect-metadata';
 import './snackbar.ui';
+import './ui-color-spot';
 
 @injectable()
 export class Snackbar {
@@ -11,7 +12,13 @@ export class Snackbar {
     document.body.prepend(this.dom);
   }
 
-  public pop(message: string) {
-    this.dom.pop(message);
+  public notifyCopy(hex: string) {
+    const html = `
+    <ui-color-spot color='${hex}'></ui-color-spot>
+    <div>
+    ${hex} copied!
+    </div>
+    `;
+    this.dom.popHtml(html);
   }
 }

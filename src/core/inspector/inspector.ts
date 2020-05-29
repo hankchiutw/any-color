@@ -104,7 +104,7 @@ export class Inspector {
   private handleColorCopy() {
     this.project.view.on('click', () => {
       copy(this.targetCell.color);
-      this.snackbar.pop(`${this.targetCell.color} copied!`);
+      this.snackbar.notifyCopy(this.targetCell.color);
     });
   }
 }

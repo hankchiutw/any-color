@@ -1,3 +1,5 @@
+const DURATION = 2000;
+
 class UiSnackbar extends HTMLElement {
   private _shadow: ShadowRoot;
 
@@ -16,13 +18,13 @@ class UiSnackbar extends HTMLElement {
     this._shadow.innerHTML = this.render();
   }
 
-  pop(message: string) {
+  popHtml(html: string) {
     window.clearTimeout(this._timerId);
-    this._contentElement.innerHTML = message;
+    this._contentElement.innerHTML = html;
     this._rootElement.style.opacity = '1';
     this._timerId = window.setTimeout(() => {
       this._rootElement.style.opacity = '0';
-    }, 1600);
+    }, DURATION);
   }
 
   render() {
@@ -37,15 +39,16 @@ class UiSnackbar extends HTMLElement {
       border-radius: 4px;
       z-index: 999;
       box-sizing: border-box;
-      width: 200px;
       height: 48px;
       color: white;
       opacity: 0;
       transition: opacity 0.15s;
     }
+
     .content {
-      display: inline;
-      vertical-align: -webkit-baseline-middle;
+      display: flex;
+      align-items: center;
+      height: 100%;
     }
     </style>
       <div class='content'>x</div>
