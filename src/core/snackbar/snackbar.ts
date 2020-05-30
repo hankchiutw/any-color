@@ -1,6 +1,6 @@
 import { injectable } from 'inversify';
 import 'reflect-metadata';
-import './snackbar.ui';
+import './ui-snackbar';
 import './ui-color-spot';
 
 @injectable()
