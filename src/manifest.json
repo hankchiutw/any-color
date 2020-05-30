@@ -1,8 +1,8 @@
 {
   "name": "any-color",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "manifest_version": 2,
-  "description": "Get any pixel color from current page",
+  "description": "Pick any pixel color from a web page",
   "homepage_url": "https://hankchiu.tw",
   "icons": {
     "16": "assets/icon16.png",

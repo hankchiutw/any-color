@@ -1,7 +1,7 @@
 {
   "name": "any-color",
-  "version": "0.1.0",
-  "description": "Get any pixel color from current page",
+  "version": "0.1.1",
+  "description": "Pick any pixel color from a web page",
   "main": "index.js",
   "scripts": {
     "start": "parcel serve src/*.{ts*,html} --no-source-maps",
