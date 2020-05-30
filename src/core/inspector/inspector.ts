@@ -1,8 +1,10 @@
 import { injectable } from 'inversify';
 import paper from 'paper';
 import { PaperProject } from '../paper-project';
+import { Snackbar } from '../snackbar';
 import { PixelCell } from './pixel-cell';
 import { createCursor, createCircleMask } from './primitive-factory';
+import { copy } from '~/common/utils';
 import 'reflect-metadata';
 
 const kInspectorSize = 11; // should be odd
@@ -18,9 +20,10 @@ export class Inspector {
     return this.cells[(this.cells.length - 1) / 2];
   }
 
-  constructor(private project: PaperProject) {
+  constructor(private project: PaperProject, private snackbar: Snackbar) {
     this.initUI();
     this.trackMouse();
+    this.handleColorCopy();
   }
 
   public loadImage(img: HTMLImageElement) {
@@ -92,6 +95,16 @@ export class Inspector {
 
     document.body.addEventListener('mouseenter', ({ clientX, clientY }) => {
       this.moveTo(new paper.Point(clientX, clientY));
+    });
+  }
+
+  /**
+   * Deal with system copy and snackbar.
+   */
+  private handleColorCopy() {
+    this.project.view.on('click', () => {
+      copy(this.targetCell.color);
+      this.snackbar.notifyCopy(this.targetCell.color);
     });
   }
 }

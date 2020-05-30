@@ -42,10 +42,7 @@ export function createCursor() {
   return cursor;
 }
 
-export function createCircleMask({
-  radius,
-  children,
-}) {
+export function createCircleMask({ radius, children }) {
   const circleClip = new paper.Shape.Circle({
     center: [radius, radius],
     radius: radius,
@@ -58,11 +55,7 @@ export function createCircleMask({
     strokeWidth: kStrokeWidth,
   });
 
-  const mask = new paper.Group([
-    circleClip,
-    ...children,
-    circleBorder,
-  ]);
+  const mask = new paper.Group([circleClip, ...children, circleBorder]);
   mask.clipped = true;
 
   return mask;

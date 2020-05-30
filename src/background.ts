@@ -1,5 +1,6 @@
 import { injectable } from 'inversify';
 import { container, MessageService, toPromise, CapturedTab } from '~/common';
+import 'regenerator-runtime/runtime';
 import 'reflect-metadata';
 
 @injectable()
