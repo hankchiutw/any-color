@@ -25,6 +25,10 @@ export class MessageService {
    * Send message to a {@link chrome.tabs.Tab}.
    */
   public async sendTab<T>(eventName: string, detail = {}): Promise<T> {
+    if (!chrome.tabs) {
+      return Promise.resolve(null);
+    }
+
     const tabs = await toPromise<chrome.tabs.Tab[]>(chrome.tabs.query)({
       active: true,
       currentWindow: true,
@@ -51,6 +55,9 @@ export class MessageService {
   }
 
   private handleMessages() {
+    if (!chrome.runtime.onMessage) {
+      return;
+    }
     chrome.runtime.onMessage.addListener(
       (payload: EventPayload, _sender, sendResponse) => {
         const callback = this.eventMap[payload.eventName];
