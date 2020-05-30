@@ -24,7 +24,7 @@ class UiColorSpot extends HTMLElement {
       border-radius: 3px;
       width: 20px;
       height: 20px;
-      margin: 6px;
+      margin-right: 6px;
       background-color: ${this.color};
     }
     </style>
