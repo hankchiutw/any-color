@@ -7,6 +7,8 @@
     "start": "parcel serve src/*.{ts*,html} --no-source-maps",
     "build": "parcel build src/*.{ts*,html} --no-source-maps",
     "watch": "parcel watch src/*.{ts*,html} --no-source-maps",
+    "release": "HUSKY_SKIP_HOOKS=1 release-it --ci",
+    "bump:manifest": "sed -i '' \"/\\\"version\\\":/s/\\\"[0-9.]*\\\"/\\\"$npm_package_version\\\"/\" ./src/manifest.json",
     "lint": "tsc --noEmit && eslint './src/**/*.{ts,tsx,js,jsx}'",
     "lint:fix": "yarn lint --fix && pretty-quick --staged",
     "test": "jest"
@@ -57,6 +59,7 @@
     "parcel-plugin-static-files-copy": "^2.3.1",
     "prettier": "^2.0.2",
     "pretty-quick": "^2.0.1",
+    "release-it": "^13.6.1",
     "ts-jest": "^25.2.1",
     "typescript": "^3.8.3"
   },

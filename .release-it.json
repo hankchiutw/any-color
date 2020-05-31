@@ -1,0 +1,11 @@
+{
+  "hooks": {
+    "after:bump": "yarn bump:manifest"
+  },
+  "git": {
+    "push": false
+  },
+  "npm": {
+    "publish": false
+  }
+}
