@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "manifest_version": 2,
   "description": "Pick any pixel color from a web page",
-  "homepage_url": "https://hankchiu.tw",
+  "homepage_url": "https://github.com/hankchiutw/any-color",
   "icons": {
     "16": "assets/icon16.png",
     "48": "assets/icon48.png",
