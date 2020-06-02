@@ -3,7 +3,8 @@
     "after:bump": "yarn bump:manifest"
   },
   "git": {
-    "push": false
+    "push": false,
+    "commitMessage": "chore: bump to ${version}"
   },
   "npm": {
     "publish": false

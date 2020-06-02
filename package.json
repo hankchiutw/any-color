@@ -6,8 +6,10 @@
   "scripts": {
     "start": "parcel serve src/*.{ts*,html} --no-source-maps",
     "build": "parcel build src/*.{ts*,html} --no-source-maps",
+    "prebuild": "rm -rf dist",
+    "postbuild": "cd dist && zip -r any-color_${npm_package_version}.zip *",
     "watch": "parcel watch src/*.{ts*,html} --no-source-maps",
-    "release": "HUSKY_SKIP_HOOKS=1 release-it --ci",
+    "bump": "HUSKY_SKIP_HOOKS=1 release-it --ci",
     "bump:manifest": "sed -i '' \"/\\\"version\\\":/s/\\\"[0-9.]*\\\"/\\\"$npm_package_version\\\"/\" ./src/manifest.json",
     "lint": "tsc --noEmit && eslint './src/**/*.{ts,tsx,js,jsx}'",
     "lint:fix": "yarn lint --fix && pretty-quick --staged",
