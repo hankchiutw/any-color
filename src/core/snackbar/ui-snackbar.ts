@@ -43,6 +43,7 @@ class UiSnackbar extends HTMLElement {
       color: white;
       opacity: 0;
       transition: opacity 0.15s;
+      pointer-events: none;
     }
 
     .content {
