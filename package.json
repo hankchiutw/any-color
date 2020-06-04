@@ -1,6 +1,6 @@
 {
   "name": "any-color",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Pick any pixel color from a web page",
   "main": "index.js",
   "scripts": {
