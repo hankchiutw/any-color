@@ -4,8 +4,8 @@
   "description": "Pick any pixel color from a web page",
   "main": "index.js",
   "scripts": {
-    "start": "parcel serve src/*.{ts*,html} --no-source-maps",
-    "build": "parcel build src/*.{ts*,html} --no-source-maps",
+    "start": "parcel watch src/*.ts* --no-source-maps",
+    "build": "parcel build src/*.ts* --no-source-maps",
     "prebuild": "rm -rf dist",
     "postbuild": "cd dist && zip -r any-color_${npm_package_version}.zip *",
     "watch": "parcel watch src/*.{ts*,html} --no-source-maps",

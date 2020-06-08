@@ -10,6 +10,12 @@ class BackgroundMain {
       console.log('AnyColor installed.');
     });
 
+    chrome.browserAction.onClicked.addListener(({ id: tabId }) => {
+      chrome.tabs.executeScript(tabId, {
+        file: 'content.js',
+      });
+    });
+
     this.messageService.on('requestCapture', this.captureVisibleTab);
     this.handleCommands();
   }
