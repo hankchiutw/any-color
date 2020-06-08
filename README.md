@@ -1,6 +1,8 @@
 # ![icon](src/assets/icon48.png) AnyColor
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![Chrome extension](https://img.shields.io/chrome-web-store/v/cmehpadapglhhambdiafddpfjdngonba)](https://chrome.google.com/webstore/detail/any-color/cmehpadapglhhambdiafddpfjdngonba)
+[![package.json version](https://img.shields.io/github/package-json/v/hankchiutw/any-color?label=package.json)](https://github.com/hankchiutw/any-color)
 
 
 A [Chrome extension][webstore] let you pick up any pixel color from a web page.
