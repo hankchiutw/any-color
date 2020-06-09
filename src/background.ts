@@ -1,23 +1,27 @@
 import { injectable } from 'inversify';
-import { container, MessageService, toPromise, CapturedTab } from '~/common';
+import {
+  ContentInjector,
+  container,
+  MessageService,
+  toPromise,
+  CapturedTab,
+} from '~/common';
 import 'regenerator-runtime/runtime';
 import 'reflect-metadata';
 
 @injectable()
 class BackgroundMain {
-  constructor(private messageService: MessageService) {
+  constructor(
+    private messageService: MessageService,
+    private contentInjector: ContentInjector
+  ) {
     chrome.runtime.onInstalled.addListener(() => {
       console.log('AnyColor installed.');
     });
 
-    chrome.browserAction.onClicked.addListener(({ id: tabId }) => {
-      chrome.tabs.executeScript(tabId, {
-        file: 'content.js',
-      });
-    });
-
     this.messageService.on('requestCapture', this.captureVisibleTab);
     this.handleCommands();
+    this.handleBrowserAction();
   }
 
   private captureVisibleTab = async (): Promise<CapturedTab> => {
@@ -48,13 +52,30 @@ class BackgroundMain {
   };
 
   private handleCommands() {
-    chrome.commands.onCommand.addListener((command: string) => {
+    chrome.commands.onCommand.addListener(async (command: string) => {
       if (command === 'toggle-inspector') {
-        this.messageService.sendTab('toggleInspector');
+        const tabId = await this.contentInjector.getActiveTabId();
+        this.toggleInspector(tabId);
       }
     });
+  }
+
+  private handleBrowserAction() {
+    chrome.browserAction.onClicked.addListener(({ id }) => {
+      this.toggleInspector(id);
+    });
+  }
+
+  /**
+   * @remarks
+   * Ensure content script is injected and send message to the active tab.
+   */
+  private async toggleInspector(tabId: number) {
+    await this.contentInjector.inject(tabId);
+    this.messageService.sendTab('toggleInspector');
   }
 }
 
 container.bind<BackgroundMain>(BackgroundMain).toSelf();
+container.bind<ContentInjector>(ContentInjector).toSelf();
 container.resolve(BackgroundMain);
