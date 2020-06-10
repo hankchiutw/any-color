@@ -47,7 +47,6 @@ class BackgroundMain {
       height,
     };
     console.log('captureVisibleTab:', capturedTab);
-    this.messageService.sendTab('captured', capturedTab);
     return capturedTab;
   };
 

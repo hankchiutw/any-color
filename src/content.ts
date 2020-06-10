@@ -28,7 +28,6 @@ class ContentMain {
   }
 
   private handleMessage() {
-    this.messageService.on('captured', this.updateImage);
     this.messageService.on('toggleInspector', this.toggleInspector);
     // TODO: enhance MessageService with response callback
     this.messageService.on<AppState>('requestDropperState', () =>
@@ -55,8 +54,11 @@ class ContentMain {
     window.addEventListener('resize', debounceSend);
   }
 
-  private requestCapture() {
-    this.messageService.send<CapturedTab>('requestCapture');
+  private async requestCapture() {
+    const detail = await this.messageService.send<CapturedTab>(
+      'requestCapture'
+    );
+    this.updateImage(detail);
   }
 
   /**
