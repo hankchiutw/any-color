@@ -12,6 +12,7 @@ const paperProjectFactory = (): PaperProject => {
         position: fixed;
         top: 0;
         z-index: ${Number.MAX_SAFE_INTEGER};
+        left: 0;
         visibility: hidden;
         `
   );
