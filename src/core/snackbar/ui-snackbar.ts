@@ -1,35 +1,17 @@
+import {
+  LitElement,
+  html,
+  customElement,
+  internalProperty,
+  css,
+} from 'lit-element';
+import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+
 const DURATION = 2000;
 
-class UiSnackbar extends HTMLElement {
-  private _shadow: ShadowRoot;
-
-  private get _rootElement(): HTMLElement {
-    return this._shadow.host as HTMLElement;
-  }
-  private get _contentElement() {
-    return this._shadow.querySelector('.content');
-  }
-
-  private _timerId = null;
-
-  constructor() {
-    super();
-    this._shadow = this.attachShadow({ mode: 'closed' });
-    this._shadow.innerHTML = this.render();
-  }
-
-  popHtml(html: string) {
-    window.clearTimeout(this._timerId);
-    this._contentElement.innerHTML = html;
-    this._rootElement.style.opacity = '1';
-    this._timerId = window.setTimeout(() => {
-      this._rootElement.style.opacity = '0';
-    }, DURATION);
-  }
-
-  render() {
-    return `
-    <style>
+@customElement('ui-snackbar')
+export class UiSnackbar extends LitElement {
+  static styles = css`
     :host {
       position: fixed;
       top: 10px;
@@ -46,23 +28,38 @@ class UiSnackbar extends HTMLElement {
       pointer-events: none;
     }
 
+    :host(.visible) {
+      opacity: 1;
+    }
+
     .content {
       display: flex;
       align-items: center;
       height: 100%;
     }
-    </style>
-      <div class='content'>x</div>
-    `;
+  `;
+
+  @internalProperty()
+  private html = 'x';
+
+  private _timerId = null;
+
+  popHtml(html: string) {
+    window.clearTimeout(this._timerId);
+    this.html = html;
+    this.classList.add('visible');
+    this._timerId = window.setTimeout(() => {
+      this.classList.remove('visible');
+    }, DURATION);
+  }
+
+  render() {
+    return html` <div class="content">${unsafeHTML(this.html)}</div> `;
   }
 }
-
-customElements.define('ui-snackbar', UiSnackbar);
 
 declare global {
   interface HTMLElementTagNameMap {
     'ui-snackbar': UiSnackbar;
   }
 }
-
-export {};
