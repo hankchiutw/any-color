@@ -37,7 +37,7 @@ class UiSnackbar extends HTMLElement {
       background: #323232;
       padding: 6px 16px;
       border-radius: 4px;
-      z-index: 999;
+      z-index: ${Number.MAX_SAFE_INTEGER};
       box-sizing: border-box;
       height: 48px;
       color: white;
