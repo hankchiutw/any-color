@@ -9,9 +9,9 @@ import {
   store,
   Store,
   APP_STORE,
-  App,
 } from './core';
 import { container } from '~/common';
+import { App } from '~/elements';
 
 const dom = document.createElement('ac-root');
 document.body.insertAdjacentElement('afterbegin', dom);
