@@ -5,13 +5,12 @@ import {
   Project,
   paperProjectFactory,
   Inspector,
-  Snackbar,
   store,
   Store,
   APP_STORE,
 } from './core';
 import { container } from '~/common';
-import { App } from '~/elements';
+import { App, Snackbar, snackbarFactory } from '~/elements';
 
 const dom = document.createElement('ac-root');
 document.body.insertAdjacentElement('afterbegin', dom);
@@ -25,6 +24,6 @@ dom.injectCanvas(canvas).then(() => {
   container.bind<Store>(APP_STORE).toConstantValue(store);
   container.bind<Project>(Project).toSelf();
   container.bind<Inspector>(Inspector).toSelf();
-  container.bind<Snackbar>(Snackbar).toSelf();
+  container.bind<Snackbar>(Snackbar).toConstantValue(snackbarFactory(dom));
   container.resolve(Project);
 });

@@ -9,8 +9,14 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 
 const DURATION = 2000;
 
-@customElement('ui-snackbar')
-export class UiSnackbar extends LitElement {
+export const snackbarFactory = (wrapper: HTMLElement) => {
+  const dom = document.createElement('ac-snackbar');
+  wrapper.shadowRoot.append(dom);
+  return dom;
+};
+
+@customElement('ac-snackbar')
+export class Snackbar extends LitElement {
   static styles = css`
     :host {
       position: fixed;
@@ -40,11 +46,20 @@ export class UiSnackbar extends LitElement {
   `;
 
   @internalProperty()
-  private html = 'x';
+  private html = '';
 
   private _timerId = null;
 
-  popHtml(html: string) {
+  public notifyColorCopy(color: string) {
+    this.openHtml(`
+      <ac-color-spot color='${color}'></ac-color-spot>
+      <div>
+      ${color} copied!
+      </div>
+      `);
+  }
+
+  private openHtml(html: string) {
     window.clearTimeout(this._timerId);
     this.html = html;
     this.classList.add('visible');
@@ -60,6 +75,6 @@ export class UiSnackbar extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'ui-snackbar': UiSnackbar;
+    'ac-snackbar': Snackbar;
   }
 }
