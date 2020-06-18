@@ -1,7 +1,7 @@
 {
   "name": "any-color",
   "short_name": "AnyColor",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "manifest_version": 2,
   "description": "Pick any pixel color from a web page",
   "homepage_url": "https://github.com/hankchiutw/any-color",
