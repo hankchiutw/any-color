@@ -1,10 +1,10 @@
 import { injectable } from 'inversify';
 import paper from 'paper';
 import { PaperProject } from '../paper-project';
-import { Snackbar } from '../snackbar';
 import { PixelCell } from './pixel-cell';
 import { createCursor, createCircleMask } from './primitive-factory';
 import { copy } from '~/common/utils';
+import { Snackbar } from '~/elements';
 import 'reflect-metadata';
 
 const kInspectorSize = 11; // should be odd
@@ -103,8 +103,9 @@ export class Inspector {
    */
   private handleColorCopy() {
     this.project.view.on('click', () => {
-      copy(this.targetCell.color);
-      this.snackbar.notifyCopy(this.targetCell.color);
+      const color = this.targetCell.color;
+      copy(color);
+      this.snackbar.notifyColorCopy(color);
     });
   }
 }

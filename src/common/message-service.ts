@@ -7,7 +7,7 @@ interface EventPayload {
   detail?: EventDetail;
 }
 
-type EventCallback<T> = (detail: EventDetail) => T;
+type EventCallback<T> = (detail: EventDetail) => T | Promise<T>;
 
 export type EventDetail = {};
 
@@ -62,9 +62,12 @@ export class MessageService {
       (payload: EventPayload, _sender, sendResponse) => {
         const callback = this.eventMap[payload.eventName];
         if (callback) {
-          const result = callback(payload.detail);
-          sendResponse(result);
+          Promise.resolve(callback(payload.detail)).then((result) => {
+            sendResponse(result);
+          });
         }
+        // keep the connection open during the async execution
+        return true;
       }
     );
   }

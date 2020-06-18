@@ -16,16 +16,9 @@
   },
   "browser_action": {
     "default_title": "Click or press Cmd/Ctrl+Shift+D to launch AnyColor",
-    "name": "Click to invoke AnyColor pointer",
-    "default_popup": "popup.html"
+    "name": "Click to invoke AnyColor inspector"
   },
-  "permissions": ["http://*/*", "https://*/*", "activeTab"],
-  "content_scripts": [
-    {
-      "matches": ["http://*/*", "https://*/*"],
-      "js": ["content.js"]
-    }
-  ],
+  "permissions": ["activeTab"],
   "commands": {
     "toggle-inspector": {
       "suggested_key": {
