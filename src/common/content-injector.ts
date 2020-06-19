@@ -23,13 +23,9 @@ export class ContentInjector {
     return tabs[0].id;
   }
 
-  /**
-   * @remarks
-   * TODO: define a more reasonable custom element.
-   */
   private async isInjected(tabId: number): Promise<boolean> {
     const result = await toPromise<boolean>(chrome.tabs.executeScript)(tabId, {
-      code: 'document.querySelector("ui-snackbar")',
+      code: 'document.querySelector("ac-root")',
     });
     return result[0];
   }
