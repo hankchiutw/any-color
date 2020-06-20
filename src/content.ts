@@ -2,12 +2,9 @@ import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import 'regenerator-runtime/runtime';
 import {
   PaperProject,
-  Project,
   paperProjectFactory,
   Inspector,
-  store,
-  Store,
-  APP_STORE,
+  AppManager,
 } from './core';
 import { container } from '~/common';
 import { App, Snackbar, snackbarFactory } from '~/elements';
@@ -21,9 +18,8 @@ dom.injectCanvas(canvas).then(() => {
   container
     .bind<PaperProject>(PaperProject)
     .toConstantValue(paperProjectFactory(canvas));
-  container.bind<Store>(APP_STORE).toConstantValue(store);
-  container.bind<Project>(Project).toSelf();
+  container.bind<AppManager>(AppManager).toSelf();
   container.bind<Inspector>(Inspector).toSelf();
   container.bind<Snackbar>(Snackbar).toConstantValue(snackbarFactory(dom));
-  container.resolve(Project);
+  container.resolve(AppManager);
 });
