@@ -13,7 +13,7 @@ const dom = document.createElement('ac-root');
 document.body.insertAdjacentElement('afterbegin', dom);
 
 const canvas = document.createElement('canvas');
-dom.injectCanvas(canvas).then(() => {
+const afterInjected = dom.injectCanvas(canvas).then(() => {
   container.bind<App>(App).toConstantValue(dom);
   container
     .bind<PaperProject>(PaperProject)
@@ -21,5 +21,7 @@ dom.injectCanvas(canvas).then(() => {
   container.bind<AppManager>(AppManager).toSelf();
   container.bind<Inspector>(Inspector).toSelf();
   container.bind<Snackbar>(Snackbar).toConstantValue(snackbarFactory(dom));
-  container.resolve(AppManager);
+  return container.resolve(AppManager);
 });
+
+export { afterInjected };
