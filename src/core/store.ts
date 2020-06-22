@@ -1,3 +1,6 @@
+/**
+ * @deprecated
+ */
 import { createStore, combineReducers, Store, AnyAction } from 'redux';
 export { Store } from 'redux';
 export const APP_STORE = 'appStore';

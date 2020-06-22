@@ -33,6 +33,20 @@ export class App extends LitElement {
   @query('canvas')
   public canvas: HTMLCanvasElement;
 
+  public get visible() {
+    return this.style.visibility !== 'hidden';
+  }
+
+  public hide() {
+    this.style.visibility = 'hidden';
+    this.style.cursor = `inherit`;
+  }
+
+  public show() {
+    this.style.visibility = 'inherit';
+    this.style.cursor = `none`;
+  }
+
   render() {
     return html`<div class="canvas-container"></div>`;
   }
