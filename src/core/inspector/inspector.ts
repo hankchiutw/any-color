@@ -1,10 +1,9 @@
 import { injectable } from 'inversify';
 import paper from 'paper';
-import { PaperProject } from '../paper-project';
+import { PaperProject } from './paper-project';
 import { PixelCell } from './pixel-cell';
 import { createCursor, createCircleMask } from './primitive-factory';
 import { copy } from '~/common/utils';
-import { Snackbar } from '~/elements';
 import 'reflect-metadata';
 
 const kInspectorSize = 11; // should be odd
@@ -12,6 +11,8 @@ const kCellSize = 30;
 
 @injectable()
 export class Inspector {
+  public onCopy = (_color: string) => {};
+
   private group: paper.Group;
   private cells: PixelCell[] = [];
   private raster: paper.Raster;
@@ -20,13 +21,14 @@ export class Inspector {
     return this.cells[(this.cells.length - 1) / 2];
   }
 
-  constructor(private project: PaperProject, private snackbar: Snackbar) {
+  constructor(private project: PaperProject) {
     this.initUI();
     this.trackMouse();
     this.handleColorCopy();
   }
 
   public loadImage(img: HTMLImageElement) {
+    this.project.view.viewSize = new paper.Size(img.width, img.height);
     img.addEventListener('load', () => {
       const raster = new paper.Raster(img);
       raster.position = new paper.Point(img.width / 2, img.height / 2);
@@ -105,7 +107,7 @@ export class Inspector {
     this.project.view.on('click', () => {
       const color = this.targetCell.color;
       copy(color);
-      this.snackbar.notifyColorCopy(color);
+      this.onCopy(color);
     });
   }
 }
