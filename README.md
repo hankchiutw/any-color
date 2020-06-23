@@ -10,7 +10,6 @@ A [Chrome extension][webstore] let you pick up any pixel color from a web page.
 - Inspired from chrome devtool's color picker.
 - Toggle the color inspector by Ctrl+Shift+A (Command+Shift+A for mac).
 - Click and copy the color hex.
-- Additional color palette is available from extension popup.
 
 ## Why?
 Most of the color picker extensions have these drawbacks: 
