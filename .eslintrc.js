@@ -28,6 +28,11 @@ module.exports = {
       files: ['*.js*', '*.ts*'],
       rules: {
         '@typescript-eslint/explicit-function-return-type': 'off',
+        '@typescript-eslint/no-empty-function': 'off',
+        '@typescript-eslint/no-unused-vars': [
+          'warn',
+          { argsIgnorePattern: '^_' },
+        ],
       },
     },
   ],
