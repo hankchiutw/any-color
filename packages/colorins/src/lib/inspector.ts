@@ -1,15 +1,12 @@
-import { injectable } from 'inversify';
 import paper from 'paper';
 import { PaperProject } from './paper-project';
 import { PixelCell } from './pixel-cell';
 import { createCursor, createCircleMask } from './primitive-factory';
-import { copy } from '~/common/utils';
-import 'reflect-metadata';
+import { copy } from './utils';
 
 const kInspectorSize = 11; // should be odd
 const kCellSize = 30;
 
-@injectable()
 export class Inspector {
   public onCopy = (_color: string) => {};
 
@@ -72,7 +69,7 @@ export class Inspector {
             pixelAt: new paper.Point(x, y),
             pivot: new paper.Point(x, y).add(offset),
             size: kCellSize,
-          })
+          }),
         );
       }
     }

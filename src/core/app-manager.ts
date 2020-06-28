@@ -1,5 +1,5 @@
+import { Inspector } from 'colorins';
 import { injectable } from 'inversify';
-import { Inspector } from './inspector';
 import { MessageService, CapturedTab } from '~/common';
 import { App, Snackbar } from '~/elements';
 import 'reflect-metadata';
@@ -10,7 +10,7 @@ export class AppManager {
     private app: App,
     private inspector: Inspector,
     private snackbar: Snackbar,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) {
     this.app.hide();
     this.handleViewportChange();
@@ -43,7 +43,7 @@ export class AppManager {
 
   private async requestCapture() {
     const detail = await this.messageService.send<CapturedTab>(
-      'requestCapture'
+      'requestCapture',
     );
     this.updateImage(detail);
   }

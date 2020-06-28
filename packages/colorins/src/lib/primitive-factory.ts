@@ -1,10 +1,11 @@
 import paper from 'paper';
-import { kStrokeWidth, kStrokeColor } from '../styles';
 
 const kCursorRaduis = 14;
 const kCursorOffset = 18;
 const kCursorLineLength = 14;
 const kCursorLineWidth = 3;
+const kStrokeColor = new paper.Color('#777777');
+const kStrokeWidth = 5;
 
 export function createCursor() {
   const cursor = new paper.Group([

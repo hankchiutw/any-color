@@ -1,6 +1,6 @@
 import paper from 'paper';
-import { Inspector } from './inspector';
-export * from './inspector';
+import { Inspector } from './lib/inspector';
+export * from './lib/inspector';
 
 export const inspectorFactory = (canvas: HTMLCanvasElement): Inspector => {
   const project = new paper.Project(canvas);

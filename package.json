@@ -5,16 +5,24 @@
   "main": "index.js",
   "scripts": {
     "start": "parcel watch src/*.ts* --no-source-maps",
-    "build": "parcel build src/*.ts* --no-source-maps",
-    "prebuild": "rm -rf dist",
+    "build": "run-s clean build:colorins build:src",
+    "build:src": "parcel build src/*.ts* --no-source-maps",
+    "build:colorins": "yarn workspace colorins build",
+    "clean": "rm -rf dist",
     "postbuild": "cd dist && zip -r any-color_${npm_package_version}.zip *",
-    "watch": "parcel watch src/*.{ts*,html} --no-source-maps",
+    "watch": "run-p watch:*",
+    "watch:src": "parcel watch src/*.ts* --no-source-maps",
+    "watch:colorins": "yarn workspace colorins watch",
     "bump": "HUSKY_SKIP_HOOKS=1 release-it --ci",
     "bump:manifest": "sed -i '' \"/\\\"version\\\":/s/\\\"[0-9.]*\\\"/\\\"$npm_package_version\\\"/\" ./src/manifest.json",
     "lint": "tsc --noEmit && eslint './src/**/*.{ts,tsx,js,jsx}'",
     "lint:fix": "yarn lint --fix && pretty-quick --staged",
     "test": "jest"
   },
+  "private": true,
+  "workspaces": [
+    "packages/colorins"
+  ],
   "staticFiles": {
     "staticPath": [
       "src"
@@ -57,6 +65,7 @@
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "jest-webextension-mock": "^3.5.4",
     "lint-staged": "^10.2.6",
+    "npm-run-all": "^4.1.5",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-static-files-copy": "^2.3.1",
     "prettier": "^2.0.2",
