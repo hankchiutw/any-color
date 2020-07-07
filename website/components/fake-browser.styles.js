@@ -53,6 +53,8 @@ export default css`
 
   .content {
     background-color: #f8f8f8;
+    background: url(/page.png) no-repeat;
+    background-size: cover;
     height: 100%;
   }
 `;
