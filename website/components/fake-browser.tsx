@@ -1,19 +1,24 @@
 import { Inspector, inspectorFactory } from 'colorins';
-import React, { useCallback } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styles from './fake-browser.styles';
 
 export default function FakeBrowser() {
-  const initInspector = useCallback((canvasEl) => {
-    if (canvasEl) {
-      const { width, height } = window.getComputedStyle(canvasEl);
-      const w = parseFloat(width);
-      const h = parseFloat(height);
-      const inspector: Inspector = inspectorFactory(canvasEl);
-      const img = new Image(w, h);
-      img.src = '/page.png';
-      inspector.loadImage(img);
+  const pageImgRef = useRef(null);
+  const canvasRef = useRef(null);
+  useEffect(() => {
+    const imgElm = pageImgRef.current;
+    const canvasElm = canvasRef.current;
+
+    if (!imgElm || !canvasElm) {
+      return;
     }
-  }, []);
+
+    const inspector: Inspector = inspectorFactory(canvasElm);
+    inspector.loadImage(imgElm);
+    window.addEventListener('resize', () => {
+      inspector.loadImage(imgElm);
+    });
+  }, [pageImgRef, canvasRef]);
   return (
     <>
       <style jsx>{styles}</style>
@@ -25,8 +30,8 @@ export default function FakeBrowser() {
           <div className="search-bar">Pick any pixel color from a web page</div>
         </div>
         <div className="content">
-          <img src="/page.png"></img>
-          <canvas ref={initInspector}></canvas>
+          <img src="/page.png" ref={pageImgRef}></img>
+          <canvas ref={canvasRef}></canvas>
         </div>
       </div>
     </>
