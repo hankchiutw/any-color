@@ -31,8 +31,7 @@ export default function Home() {
         }
 
         .fake-browser {
-          flex: 1;
-          padding: 0 10% 10%;
+          padding: 0 10%;
         }
       `}</style>
     </>

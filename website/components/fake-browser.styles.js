@@ -2,7 +2,6 @@ import css from 'styled-jsx/css';
 
 export default css`
   .host {
-    height: 100%;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: -6px 0px 20px rgba(119, 119, 119, 0.4),
@@ -53,8 +52,19 @@ export default css`
 
   .content {
     background-color: #f8f8f8;
-    background: url(/page.png) no-repeat;
-    background-size: cover;
+    position: relative;
+  }
+
+  .content img {
+    width: 100%;
+    display: block;
+  }
+
+  .content canvas {
+    position: absolute;
+    width: 100%;
     height: 100%;
+    top: 0;
+    left: 0;
   }
 `;
