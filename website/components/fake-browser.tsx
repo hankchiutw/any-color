@@ -1,8 +1,11 @@
 import { Inspector, inspectorFactory } from 'colorins';
-import React, { useRef, useEffect } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import styles from './fake-browser.styles';
+import { SnackbarContext } from './snackbar';
 
 export default function FakeBrowser() {
+  const snackbar = useContext(SnackbarContext);
+
   const pageImgRef = useRef(null);
   const canvasRef = useRef(null);
   useEffect(() => {
@@ -18,6 +21,10 @@ export default function FakeBrowser() {
     window.addEventListener('resize', () => {
       inspector.loadImage(imgElm);
     });
+
+    inspector.onCopy = (hex: string) => {
+      snackbar.current.open(hex);
+    };
   }, [pageImgRef, canvasRef]);
   return (
     <>
