@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./src/assets/header.png" width="300" alt="AnyColor">
+  <img src="./website/public/header.png" width="300" alt="AnyColor">
   <br>
   <a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"></a>
   <a href="https://chrome.google.com/webstore/detail/any-color/cmehpadapglhhambdiafddpfjdngonba"><img src="https://img.shields.io/chrome-web-store/v/cmehpadapglhhambdiafddpfjdngonba" alt="Chrome extension"></a>

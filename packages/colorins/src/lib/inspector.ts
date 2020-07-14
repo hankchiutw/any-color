@@ -26,7 +26,7 @@ export class Inspector {
 
   public loadImage(img: HTMLImageElement) {
     this.project.view.viewSize = new paper.Size(img.width, img.height);
-    img.addEventListener('load', () => {
+    const rasterize = () => {
       const raster = new paper.Raster(img);
       raster.position = new paper.Point(img.width / 2, img.height / 2);
       raster.width = img.width;
@@ -36,7 +36,9 @@ export class Inspector {
 
       // refresh
       this.moveTo(this.group.position);
-    });
+    };
+
+    img.complete ? rasterize() : img.addEventListener('load', rasterize);
   }
 
   /**

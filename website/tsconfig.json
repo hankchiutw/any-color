@@ -1,0 +1,19 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "module": "esnext"
+  },
+  "include": [
+    "pages/**/*",
+    "components/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
