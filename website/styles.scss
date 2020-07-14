@@ -22,10 +22,14 @@ body {
 #__next {
   width: 100%;
   min-height: 100vh;
-  background: url(/bg.png) no-repeat;
+  background: linear-gradient(39.03deg, #E56C70 3.53%, #F8D49E 97.44%);
   background-size: cover;
 }
 
 a {
   text-decoration: none;
+}
+
+a:visited {
+  color: black;
 }

@@ -17,16 +17,16 @@ export default css`
 
   .crxAnchor {
     display: block;
-    height: 50px;
-    border-radius: 25px;
-    background-color: rgba(64, 110, 113, 0.7);
-    line-height: 50px;
-    color: white;
+    height: 56px;
+    border-radius: 28px;
+    border: 4px solid #fbfbfb;
+    line-height: 48px;
+    color: #fbfbfb;
     font-family: Roboto;
     margin: 40px auto 0;
     padding: 0 20px;
     text-align: center;
-    font-weight: 300;
+    font-weight: 500;
   }
 
   .footer {
@@ -36,7 +36,7 @@ export default css`
   }
 
   .footer a[data-icon] {
-    color: rgba(64, 110, 113);
+    color: #202020;
     margin: 0 4px;
   }
 
