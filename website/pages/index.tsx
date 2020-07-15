@@ -1,7 +1,7 @@
 import { FakeBrowser, Snackbar, SnackbarContext } from 'components';
 import Head from 'next/head';
 import React, { useRef } from 'react';
-import styles from './index.styles';
+import styles from '../styles/index.styles';
 
 export default function Home() {
   const snackbarRef = useRef<Snackbar>(null);
