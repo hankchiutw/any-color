@@ -1,13 +1,14 @@
 {
-  "name": "any-color-website",
+  "name": "website",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start"
   },
   "dependencies": {
+    "colorins": "^0.1.0",
     "next": "9.4.4",
     "react": "16.13.1",
     "react-dom": "16.13.1",

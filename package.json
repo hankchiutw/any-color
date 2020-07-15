@@ -8,6 +8,8 @@
     "build": "run-s clean build:colorins build:src",
     "build:src": "parcel build src/*.ts* --no-source-maps",
     "build:colorins": "yarn workspace colorins build",
+    "build:website": "yarn workspace website build",
+    "prebuild:website": "yarn build:colorins",
     "clean": "rm -rf dist",
     "postbuild": "cd dist && zip -r any-color_${npm_package_version}.zip *",
     "watch": "run-p watch:*",
@@ -21,7 +23,8 @@
   },
   "private": true,
   "workspaces": [
-    "packages/colorins"
+    "packages/colorins",
+    "website"
   ],
   "staticFiles": {
     "staticPath": [
