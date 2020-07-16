@@ -11,7 +11,7 @@ export default function Home() {
       <style jsx>{styles}</style>
       <Head>
         <title>AnyColor</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="shortcut icon" type="image/png" href="/favicon.png" />
       </Head>
 
       <SnackbarContext.Provider value={snackbarRef}>
