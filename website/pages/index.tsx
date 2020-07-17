@@ -1,5 +1,4 @@
 import { FakeBrowser, Snackbar, SnackbarContext } from 'components';
-import Head from 'next/head';
 import React, { useRef } from 'react';
 import styles from '../styles/index.styles';
 
@@ -9,10 +8,6 @@ export default function Home() {
   return (
     <>
       <style jsx>{styles}</style>
-      <Head>
-        <title>AnyColor</title>
-        <link rel="shortcut icon" type="image/png" href="/favicon.png" />
-      </Head>
 
       <SnackbarContext.Provider value={snackbarRef}>
         <div className="container">
