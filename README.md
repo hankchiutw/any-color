@@ -5,10 +5,13 @@
   <a href="https://chrome.google.com/webstore/detail/any-color/cmehpadapglhhambdiafddpfjdngonba"><img src="https://img.shields.io/chrome-web-store/v/cmehpadapglhhambdiafddpfjdngonba" alt="Chrome extension"></a>
   <a href="https://github.com/hankchiutw/any-color"><img src="https://img.shields.io/github/package-json/v/hankchiutw/any-color?label=package.json" alt="package.json version" ></a>
 </p>
+<p align="center">
+<img src="./any-color-demo.gif" alt="AnyColor demo">
+</p>
 
 A [Chrome extension][webstore] let you pick up any pixel color from a web page.
 
-- Inspired from chrome devtool's color picker.
+- Inspired from Chrome devtool's color picker.
 - Toggle the color inspector by Ctrl+Shift+A (Command+Shift+A for mac).
 - Click and copy the color hex.
 
