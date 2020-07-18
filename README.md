@@ -9,7 +9,7 @@
 <img src="./any-color-demo.gif" alt="AnyColor demo">
 </p>
 
-A [Chrome extension][webstore] let you pick up any pixel color from a web page.
+A [Chrome extension][webstore] that makes you pick up any pixel color from a web page.
 
 - Inspired from Chrome devtool's color picker.
 - Toggle the color inspector by Ctrl+Shift+A (Command+Shift+A for mac).
