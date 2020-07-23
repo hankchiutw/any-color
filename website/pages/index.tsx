@@ -1,4 +1,9 @@
-import { FakeBrowser, Snackbar, SnackbarContext } from 'components';
+import {
+  FakeBrowser,
+  Snackbar,
+  SnackbarContext,
+  GithubCorner,
+} from 'components';
 import React, { useRef } from 'react';
 import styles from '../styles/index.styles';
 
@@ -8,6 +13,7 @@ export default function Home() {
   return (
     <>
       <style jsx>{styles}</style>
+      <GithubCorner></GithubCorner>
 
       <SnackbarContext.Provider value={snackbarRef}>
         <div className="container">
@@ -34,25 +40,7 @@ export default function Home() {
             >
               hankchiu.tw
             </a>
-            &nbsp;2020.
-            <a
-              data-icon="github"
-              href="https://github.com/hankchiutw"
-              target="_blank"
-              rel="noopener noreferrer"
-            ></a>
-            <a
-              data-icon="linkedin"
-              href="https://www.linkedin.com/in/hankchiutw"
-              target="_blank"
-              rel="noopener noreferrer"
-            ></a>
-            <a
-              data-icon="stackoverflow"
-              href="https://stackoverflow.com/users/6040102/hank-chiu"
-              target="_blank"
-              rel="noopener noreferrer"
-            ></a>
+            &nbsp;2020
           </div>
         </div>
         <Snackbar ref={snackbarRef}></Snackbar>
